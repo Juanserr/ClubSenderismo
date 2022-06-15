@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} - Administrador{% endblock %}
+
+{% block body %}
+{# Barra de navegación #}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header" href="#">Club de Senderismo y Montañismo</a>
+            <img src="{{ asset('images/icon.png') }}" alt="Club Senderismo" height="40">
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" href="{{path('app_administrador')}}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li></li>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Usuarios
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('usuarioBuscarAdmin')}}">Buscar Usuario</a>
+                        <a class="dropdown-item" href="{{path('registrarUsuarioAdmin')}}">Registrar Usuario</a>
+                        <a class="dropdown-item" href="{{path('buscarSolicitudesAdmin')}}">Solicitudes de admisión socio</a>
+                        <a class="dropdown-item" href="{{path('buscarBajaAdmin')}}">Solicitudes de baja socio</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mi actividad
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('rutasInscritasBuscarAdmin')}}">Rutas</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Rutas
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('rutaBuscarAdmin')}}">Buscar Ruta</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarRuta')}}">Registrar Ruta</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Eventos
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('eventoBuscarAdmin')}}">Buscar Evento</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarEvento')}}">Registrar Evento</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Material Deportivo
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('materialBuscarAdmin')}}">Buscar Material Deportivo</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarMaterial')}}">Registrar Material Deportivo</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mi perfil
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('consultarPerfilAdmin')}}">Ver mi perfil</a>
+                        <a class="dropdown-item" href="{{path('editarPerfilAdmin')}}">Editar mi perfil</a>
+                        <a class="dropdown-item" href="{{path('eliminarPerfilAdmin')}}">Eliminar mi perfil</a>
+                    </div>
+            </div>
+
+                <li class="nav-item active"><a class="nav-link" type="button" href="{{path('ayudaAdministrador')}}"><span class="glyphicon glyphicon-home"></span> Ayuda</a></li></li>
+                <li class="nav-item active"><a class="nav-link" type="button" href="{{path('app_logout')}}"><span class="glyphicon glyphicon-home"></span> Cerrar Sesión</a></li></li>
+            </div>
+            
+            </ul>
+        </div>
+    </div>
+    </nav>
+
+        {% for message in app.flashes('success') %}
+        <div class= "alert alert-success" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
+
+        {% for message in app.flashes('danger') %}
+        <div class= "alert alert-danger" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <body>
+{% if ruta is defined and evento is defined and material is defined %}
+<div class="container h-100 " style="margin-top:120px">
+    <div class = "row">
+
+            <div class="card-deck">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/ruta.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ruta.nombre}}</h5>
+                            <p class="card-text">Anímese a aventurarse en esta ruta con nosotros, no lo dudes.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarRutaAd', {id: ruta.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/evento.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{evento.nombre}}</h5>
+                            <p class="card-text">Disfruta con nosotros de nuestro último evento.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarEventoAd', {id: evento.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/materialdeportivo.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{material.nombre}}</h5>
+                            <p class="card-text">Hágase con lo último en material deportivo en nuestro club.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarMaterialAd', {id: material.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+            </div>
+    </div>
+  </div>
+
+
+</body>
+{% endif %}
+{#}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .option { background-color:IndianRed; color: white; }
+    .option:hover { background-color: Red; }
+    .dropdown { background-color:IndianRed; color: white; }
+    .dropdown:hover { background-color: Red; }
+    .dropdown-menu { background-color:IndianRed; color: white; }
+    .dropdown-menu:hover { background-color: Red; }
+    #dropdown-item { background-color:IndianRed; color: white; display: block; }
+    #dropdown-item:hover { background-color: Red; }
+    #dropdown-item:focus { background-color: Red; }
+    body {background-color: FloralWhite; }
+</style>
+#}
+
+{% endblock %}
+
+{% block content %}
+    <h1 style="color:black; margin-top:80px;"><center>Club de Senderismo y Montañismo.<center></h1>
+    <center><img style="margin-top:80px;" src="{{ asset('images/senderismo.jpg') }}" /></center>
+{% endblock %}
