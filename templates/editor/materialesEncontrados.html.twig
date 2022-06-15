@@ -1,0 +1,88 @@
+{% extends 'editor/index.html.twig' %}
+
+{% block title %}{{parent()}} - Buscar Material Deportivo{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+{% for message in app.flashes('exito') %}
+    <div class= "alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('info') %}
+    <div class= "alert alert-warning">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="container h-100 " style="margin-top:80px">
+    <h1 style="color:RoyalBlue"><center>LISTADO DE MATERIAL DEPORTIVO<center></h1>
+{% if materiales is not same as("") and materiales is not null and materiales is not empty %}
+
+
+    <table id="tbMaterial" class="table align-middle" style="border: 10px ridge RoyalBlue; width:100%">
+        <thead class="thead-light" style="border-bottom-style:2px solid #24a690;">
+        
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Talla</th>
+                <th>Sexo</th>
+                <th>Color</th>
+                <th>Tela</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                    <div class="scrollit">
+                            {% for material in materiales %}
+                                <tr id ='{{material.id}}'>
+                                    <td>{{material.id}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('images/camiseta.png') }}" style="width: 35px; height: 35px;" class="rounded-circle">
+                                        </div>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{material.nombre}}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{material.marca}}</td>
+                                    <td>{{material.talla}}</td>
+                                    <td>{{material.sexo}}</td>
+                                    <td>{{material.color}}</td>
+                                    <td>{{material.tela}}</td>
+                                    <td align="center">                                   
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarMaterialEditor', {id: material.id})}}'"><img height="24px" src="{{ asset('images/consultar.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('editarMaterialEditor', {id: material.id})}}'"><img height="24px" src="{{ asset('images/editar.png') }}" title="Editar"/></button> 
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarMaterialEditor', {id: material.id})}}'"><img height="24px" src="{{ asset('images/eliminar.png') }}" title="Eliminar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('solicitudPrendaEditor', {id: material.id})}}'"><img height="24px" src="{{ asset('images/usuariosInscritos.png') }}" title="Usuarios solicitantes"/></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container h-100 " style="margin-top:40px">
+    <div class="form-row">
+        <div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+        </div>
+    </div>
+    </div>
+</div>
+{% else %}
+<div class="container h-100 " style="margin-top:40px">
+    <p style="text-align:center">Lo sentimos. No se ha encontrado ningun material deportivo...</p>
+    <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

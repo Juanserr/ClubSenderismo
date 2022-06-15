@@ -1,0 +1,84 @@
+{% extends 'administrador/index.html.twig' %}
+
+{% block title %}{{parent()}} - Buscar Material Deportivo{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+<div class="panel panel-default">
+    <form class="panel-heading"  style="background-color:RoyalBlue; border:RoyalBlue;">
+        <div class="container h-100 " style="margin-top:80px">
+        <h1 style="color:white"><center>Buscar Material Deportivo<center></h1>
+        <body onload="buscar();">
+        <div class="form-row">
+            <div id="campo_nombre" class="form-group col-md-6" style="color:white">
+                <label>Nombre </label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del evento a buscar" >
+            </div>
+
+            <div id="campo_marca" class="form-group col-md-6" style="color:white">
+                <label>Marca</label>
+                <input type="text" class="form-control" id="marca" name="marca" placeholder="Marca del evento a buscar" >
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_talla" class="form-group col-md-6" style="color:white">
+                <label>Talla</label>
+                <input type="text" class="form-control" id="talla" name="talla" placeholder="Talla del evento a buscar" >
+            </div>
+
+            <div id="campo_sexo" class="form-group col-md-6" style="color:white">
+                <label>Sexo</label>
+                <input type="text" class="form-control" id="sexo" name="sexo" placeholder="Sexo del evento a buscar" >
+            </div>
+            
+        </div>
+
+        <div class="form-row">
+            <div id="boton_buscar" class="form-group col-md-7">
+                <button type="button" class="btn btn-primary" onclick="buscar();"  style="background-color:DarkBlue; border:DarkBlue;">Buscar</button>
+            </div>
+        </div>
+
+        </div>
+    </form>
+
+    <div id="table_container"></div>
+
+</div>
+
+{# Contenedor en el que se actualizan los resultados de la búsqueda #}
+<div id="materialesEncontrados">
+</div>
+
+<script>
+    function buscar(){
+        
+        nombre = $("#nombre").val();
+        marca = $("#marca").val();
+        talla = $("#talla").val();
+        color = $("#color").val();
+        tela = $("#tela").val();
+        $("#materialesEncontrados").empty();
+        $.ajax
+        ({
+            type: "POST",
+            cache: true,
+            dataType: 'html',
+            url: "{{path('buscarMaterialAd')}}", 
+            data: {nombre: nombre, marca: marca, talla: talla, color: color, tela: tela},
+            success: function(html)
+            {
+                // Mostrar el resultado de la búsqueda
+                if(html !== ""){
+                    $("#materialesEncontrados").empty();
+                    $("#materialesEncontrados").html(html);
+                }
+            }
+        });
+    }
+    
+</script>
+
+{% endblock %}

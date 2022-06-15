@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} - Página web del Club{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+
+
+{# Barra de navegación #}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header" href="#">Club de Senderismo y Montañismo</a>
+            <img src="{{ asset('images/icon.png') }}" alt="Club Senderismo" height="40">
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" href="{{path('app_home_page')}}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li></li>
+
+            <li class="nav-item active"><a class="nav-link" href="{{path('misRutasUsuario')}}"><span class="glyphicon glyphicon-home"></span>Rutas inscritas</a></li>
+            
+            <li class="nav-item active"><a class="nav-link" href="{{path('rutaBuscarUsuario')}}"><span class="glyphicon glyphicon-home"></span>Buscar Ruta</a></li>
+
+            <li class="nav-item active"><a class="nav-link" href="{{path('eventoBuscarUsuario')}}"><span class="glyphicon glyphicon-home"></span>Buscar Evento</a></li>
+
+            <li class="nav-item active"><a class="nav-link" href="{{path('materialBuscarUsuario')}}"><span class="glyphicon glyphicon-home"></span>Buscar Material Deportivo</a></li>
+
+            <li class="nav-item active"><a class="nav-link" href="{{path('solicitarSocioUsuario')}}"><span class="glyphicon glyphicon-home"></span>Solicitar ser Socio</a></li>
+
+            <li class="nav-item active"><a class="nav-link" type="button" href="{{path('ayudaUsuario')}}"><span class="glyphicon glyphicon-home"></span> Ayuda</a></li></li>
+
+            <li class="nav-item active"><a class="nav-link" href="{{path('app_login')}}"><span class="glyphicon glyphicon-home"></span>Iniciar Sesión</a></li>
+            
+            </ul>
+        </div>
+    </div>
+    </nav>
+
+    {% for message in app.flashes('success') %}
+        <div class= "alert alert-success" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
+
+        {% for message in app.flashes('danger') %}
+        <div class= "alert alert-danger" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
+
+<body>
+{% if ruta is defined and evento is defined and material is defined %}
+<div class="container h-100 " style="margin-top:120px">
+    <div class = "row">
+
+            <div class="card-deck">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/ruta.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ruta.nombre}}</h5>
+                            <p class="card-text">Anímese a aventurarse en esta ruta con nosotros, no lo dudes.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarRutaUsuario', {id: ruta.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/evento.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{evento.nombre}}</h5>
+                            <p class="card-text">Disfruta con nosotros de nuestro último evento.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarEventoUsuario', {id: evento.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/materialdeportivo.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{material.nombre}}</h5>
+                            <p class="card-text">Hágase con lo último en material deportivo en nuestro club.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('consultarMaterialUsuario', {id: material.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                </div>
+            </div>
+    </div>
+  </div>
+
+
+</body>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1 style="color:black; margin-top:80px;"><center>Club de Senderismo y Montañismo.<center></h1>
+    <center><img style="margin-top:80px;" src="{{ asset('images/senderismo.jpg') }}" /></center>
+{% endblock %}

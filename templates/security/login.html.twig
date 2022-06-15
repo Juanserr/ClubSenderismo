@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceder a la web{% endblock %}
+
+{% block body %}
+<form method="post", style="width: 500px; margin: auto">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            Ya estás logueado/a como {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <h1 style="text-align:center; margin-top:40px;" class="h3 mb-3 font-weight-normal">ACCESO A LA WEB</h1>
+        <label for="inputEmail">Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" aria-describedby="emailHelp" class="form-control" autocomplete="email" required autofocus>
+        <small id="emailHelp" class="form-text text-muted">No se compartirá su email con nadie.</small>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Contraseña</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="_remember_me" checked>
+        <label class="form-check-label" for="exampleCheck1">Recuérdame</label>
+    </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    <button class="btn btn-lg btn-outline-primary btn-block" type="submit">
+        Entrar
+    </button>
+
+    <button type="button" class="btn btn-lg btn-outline-secondary btn-block" onclick="history.back()">Volver</button>
+</form>
+{% endblock %}

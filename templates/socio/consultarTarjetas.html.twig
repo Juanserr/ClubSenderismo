@@ -1,0 +1,74 @@
+{% extends 'socio/index.html.twig' %}
+
+{% block title %}{{parent()}} - Consultar Tarjetas Federativas{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+{% for message in app.flashes('success') %}
+    <div class= "alert alert-success" role="alert" style="margin-top:80px" >
+        {{ message }}
+    </div>
+{% endfor %}
+
+    {% for message in app.flashes('danger') %}
+    <div class= "alert alert-danger" role="alert" style="margin-top:80px" >
+        {{ message }}
+    </div>
+{% endfor %}
+
+<body>
+
+<div class="container h-100 " style="margin-top:100px">
+    <div class = "row">
+
+            <div class="card-deck">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/tarjetafederativa.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tarjeta federativa infantil</h5>
+                            <p class="card-text">Tarjeta destinada para personas hasta 13 años cumplidos en el año 2022 (nacidos entre del 01/01/2009 y el 31/12/2022)</p>
+                            <p class="card-text">Precio: 10€</p>
+                        </div>
+                        <a onclick="location.href='{{ path('solicitarTarjeta', {tarjeta: '1'})}}'" class="btn btn-outline-primary btn-block">Solicitar Tarjeta</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/tarjetafederativa2.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tarjeta federativa juvenil</h5>
+                            <p class="card-text">Tarjeta destinada para personas de 14 a 17 años cumplidos en el 2022 (nacidos entre del 01/01/2005 y el 31/12/2008)</p>
+                            <p class="card-text">Precio: 30€</p>
+                        </div>
+                        <a onclick="location.href='{{ path('solicitarTarjeta', {tarjeta: '2'})}}'" class="btn btn-outline-primary btn-block">Solicitar Tarjeta</a>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/tarjetafederativa3.png') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tarjeta federativa mayor</h5>
+                            <p class="card-text">Tarjeta destinada para personas de 18 a 84 años cumplidos en el 2022 (nacidos entre del 01/01/1938 y el 31/12/2004) </p>
+                            <p class="card-text">Precio: 60€</p>
+                        </div>
+                        <a onclick="location.href='{{ path('solicitarTarjeta', {tarjeta: '3'})}}'" class="btn btn-outline-primary btn-block">Solicitar Tarjeta</a>
+                </div>
+            </div>
+    </div>
+  </div>
+
+  <div class="container h-100 " style="margin-top:40px">
+    <div class="form-row">
+        <div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+        </div>
+    </div>
+    </div>
+
+
+</body>
+
+{% endblock %}
+
+{% block content %}
+    <h1 style="color:black; margin-top:80px;"><center>Club de Senderismo y Montañismo.<center></h1>
+    <center><img style="margin-top:80px;" src="{{ asset('images/senderismo.jpg') }}" /></center>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends 'consultor/index.html.twig' %}
+
+{% block title %}{{parent()}} - Ayuda{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+
+<div class="container h-100 " style="margin-top:40px">
+
+    <h1 style="color:black; margin-top:40px;"><center>Ayuda<center></h1>
+
+    <ul>
+        <li><a href="#Inicio">Inicio</a></li>
+        <li><a href="#Usuarios">Usuarios</a></li>
+        <li><a href="#Mi actividad">Mi actividad</a></li>
+        <li><a href="#Rutas">Rutas</a></li>
+        <li><a href="#Eventos">Eventos</a></li>
+        <li><a href="#Material Deportivo">Material Deportivo</a></li>
+        <li><a href="#Mi perfil">Mi perfil</a></li>
+        <li><a href="#Cerrar Sesión">Cerrar Sesión</a></li>
+    </ul>
+
+    <h2 id="Inicio">Inicio</h2>
+
+    <p>La opción <strong>Inicio</strong> que se encuentra en la barra de navegación, podemos acceder a la página principal de la aplicación desde cualquier
+    parte de ella.</p>
+
+    <h2 id="Usuarios">Usuarios</h2>
+
+    <p>La opción <strong>Usuarios</strong> de la barra de navegación, muestra dos operaciones principales para interactuar
+    con los usuarios registrados en el sistema.</p>
+
+        <h3 id="Buscar usuario">Buscar usuario</h3>
+
+        <p>La opción <strong>Buscar usuario</strong> del menú <strong>Usuarios</strong>, accede al buscador de usuarios.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de usuarios registrados.</p>
+        <p>Las opciones disponibles para los usuarios son:</p>
+        <ul>
+            <li><strong>Consultar Usuario:</strong> Visualiza la información del usuario registrado con detalle.</li>
+        </ul>
+
+
+    <h2 id="Mi actividad">Mi actividad</h2>
+
+    <p>La opción <strong>Mi actividad</strong> que se encuentra en la barra de navegación, muestra la operacion principal para interactuar
+    con la actividad del usuario en el sistema.</p>
+
+        <h3 id="Rutas">Rutas</h3>
+
+            <p>La opción <strong>Rutas</strong> del menú <strong>Mi actividad</strong>, accede al buscador de rutas inscritas del usuario.
+            <p>Por defecto se mostrará la lista completa de rutas inscritas del usuario.</p>  
+            <p>Las opciones disponibles para las rutas son:</p>
+            <ul>
+                <li><strong>Consultar Ruta:</strong> Visualiza la información de la ruta registrada con detalle.</li>
+                <li><strong>Anular Inscripción:</strong> Visualiza la informacion de la ruta inscrita y pregunta confirmación de la anulación
+                de inscripción al usuario.</li>
+            </ul>  
+
+    <h2 id="Rutas">Rutas</h2>
+
+    <p>La opción <strong>Rutas</strong> de la barra de navegación, muestra dos operaciones principales para interactuar
+    con las rutas registradas en el sistema.</p>
+
+        <h3 id="Buscar ruta">Buscar ruta</h3>
+
+        <p>La opción <strong>Buscar ruta</strong> del menú <strong>Rutas</strong>, accede al buscador de rutas.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de rutas registradas.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Ruta:</strong> Visualiza la información de la ruta registrada con detalle.</li>
+            <li><strong>Inscribirse a Ruta:</strong> Permite al usuario inscribirse a la ruta seleccionada.</li>
+        </ul>
+
+    <h2 id="Eventos">Eventos</h2>
+
+    <p>La opción <strong>Eventos</strong> de la barra de navegación, muestra dos operaciones principales para interactuar
+    con los eventos registrados en el sistema.</p>
+
+        <h3 id="Buscar evento">Buscar evento</h3>
+
+        <p>La opción <strong>Buscar evento</strong> del menú <strong>Eventos</strong>, accede al buscador de eventos.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de eventos registrados.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Evento:</strong> Visualiza la información del evento registrado con detalle.</li>
+        </ul>
+
+
+    <h2 id="Material Deportivo">Material Deportivo</h2>
+
+    <p>La opción <strong>Material Deportivo</strong> de la barra de navegación, muestra dos operaciones principales para interactuar
+    con los materiales deportivos registrados en el sistema.</p>
+
+        <h3 id="Buscar Material deportivo">Buscar Material Deportivo</h3>
+
+        <p>La opción <strong>Buscar Material deportivo</strong> del menú <strong>Material Deportivo</strong>, accede al buscador de material deportivo.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de eventos registrados.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Material Deportivo:</strong> Visualiza la información del material deportivo registrado con detalle.</li>
+        </ul>
+
+    <h2 id="Mi perfil">Mi perfil</h2>
+
+    <p>La opción <strong>Mi perfil</strong> de la barra de navegación, muestra las tres operaciones principales para interactuar
+    con el perfil del usuario conectado en ese momento a la aplicación.</p>
+
+        <h4 id="Ver mi perfil">Ver mi perfil</h4>
+
+        <p>La opción <strong>Ver mi perfil</strong> del menú <strong>Mi perfil</strong>, podemos consultar la información personal
+        del perfil de usuario conectado actualmente a la aplicación.</p>
+
+        <h4 id="Editar mi perfil">Editar mi perfil</h4>
+
+        <p>La opción <strong>Editar mi perfil</strong> del menú <strong>Mi perfil</strong>, podemos modificar la información personal
+        del perfil de usuario conectado actualmente a la aplicación.</p>
+
+        <h4 id="Borrar mi perfil">Borrar mi perfil</h4>
+
+        <p>La opción <strong>Borrar mi perfil</strong> del menú <strong>Mi perfil</strong>, poddemos eliminar la información personal
+        del perfil de usuario conectado actualmente a la aplicación. Si se confirma la acción, la sesión del usuario se cerrará y no podrá volver
+        a iniciar sesión en la aplicación.</p>
+    
+    <h3 id="Cerrar Sesión">Cerrar Sesión</h3>
+
+    <p>La opción <strong>Cerrar sesión</strong> de la barra de navegación, desconecta al usuario de la aplicación, volviendo a la página principal
+    de la misma como un Usuario Público y restringiendo de nuevo el acceso a opciones reservadas para usuarios registrados.</p>
+
+</div>
+
+<div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+        </div>
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

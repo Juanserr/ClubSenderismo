@@ -1,0 +1,48 @@
+{% block body %}
+
+<h1> <center>LISTADO DE USUARIOS<center></h1>
+{% if usuarios is not same as("") and usuarios is not null and usuarios is not empty %}
+
+    <table id="tbUsuario" class="table align-middle">
+        <thead>
+        <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+        </style>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for usuario in usuarios %}
+                    <tr id ='{{usuario.id}}'>
+                        <td>{{usuario.email}}</td>
+                        <td>{{usuario.nombre}} {{usuario.apellidos}}</td>
+                        <td>{{usuario.telefono}}</td>
+                    </tr>
+                {% endfor %}
+            </tr>
+    </table>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

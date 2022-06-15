@@ -1,0 +1,32 @@
+{% extends 'club/index.html.twig' %}
+{% block title %}{{parent()}} - Login de inscripcion{% endblock %}
+{% block body %}
+
+{{parent()}}
+
+<div class="container h-100 " style="margin-top:80px">
+    <div class="row justify-content-center align-items-center" style="margin-top:30px; border: 10px ridge RoyalBlue;">
+        <div class="col-8 bg-white rounded my-3 p-5">
+        <h2>INSCRIPCION DE RUTA</h2>
+            <h4>Si usted no se ha inscrito nunca en una ruta, debe registrarse previamente.</h4>
+            <div style="margin-top:10px">
+                <button type="button" class="btn btn-info" onclick="location.href='{{ path('insRutaUsuario', {id: ruta.id})}}'">Registrarse</button>
+            </div>
+            <div style="margin-top:20px">
+            <h4>En caso de haberlo hecho con anterioridad, puede introducir su correo electrónico y contraseña</h4>
+            <div style="class=form-row">
+                {{form(formulario)}}
+            </div>
+            </div>
+            
+            <div style="margin-top:10px">
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

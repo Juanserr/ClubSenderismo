@@ -1,0 +1,108 @@
+{% extends 'administrador/index.html.twig' %}
+
+{% block title %}{{parent()}} - Rutas Inscritas{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+{% for message in app.flashes('success') %}
+    <div class= "alert alert-success" style="margin-top:80px">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('info') %}
+    <div class= "alert alert-warning" style="margin-top:80px">>
+        {{ message }}
+    </div>
+{% endfor %}
+
+<div class="container h-100 " style="margin-top:80px">
+    <h1 style="color:RoyalBlue"><center>LISTADO DE RUTAS<center></h1>
+{% if rutas is not same as("") and rutas is not null and rutas is not empty %}
+
+
+    <table id="tbRuta" class="table align-middle" style="border: 10px ridge RoyalBlue; width:100%">
+        <thead class="thead-light" style="border-bottom-style:2px solid #24a690;">
+        
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Lugar de Inicio-Lugar de Fin</th>
+                <th>Distancia</th>
+                <th>Desnivel Acumulado</th>
+                <th>Duración</th>
+                <th>Fecha</th>
+                <th>Hora inicio-Hora fin</th>
+                <th>Recorrido</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                    <div class="scrollit">
+                            {% for ruta in rutas %}
+                                <tr id ='{{ruta.id}}'>
+                                    <td>{{ruta.id}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('images/ruteo.png') }}" style="width: 35px; height: 35px;" class="rounded-circle">
+                                        </div>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{ruta.nombre}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{ruta.lugarInicio}} - {{ruta.lugarFin}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{ruta.distancia}} metros</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{ruta.desnivelAcumulado}} metros</p>
+                                        </div>
+                                    </td>
+                                    <td>{{ruta.duracion}}</td>
+                                    <td>{{ruta.fecha | date('d-m-Y')}}</td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{ruta.horaInicio | date('H:i')}} - {{ruta.horaFin | date('H:i') }}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{ruta.recorrido}}</td>
+                                    <td align="center">                                   
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarRutaAd', {id: ruta.id})}}'"><img height="24px" src="{{ asset('images/consultar.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('anularInscripcionRutaAd', {id: ruta.id})}}'"><img height="24px" src="{{ asset('images/anular.png') }}" title="Anular Inscripción"/></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container h-100 " style="margin-top:40px">
+    <div class="form-row">
+        <div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+        </div>
+    </div>
+    </div>
+</div>
+{% else %}
+<div class="container h-100 " style="margin-top:40px">
+    <p style="text-align:center">Lo sentimos. No se ha encontrado ninguna ruta...</p>
+    <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

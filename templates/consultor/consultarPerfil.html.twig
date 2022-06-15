@@ -1,0 +1,63 @@
+{% extends 'consultor/index.html.twig' %}
+
+{% block title %}{{parent()}} - Consultar Perfil{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+<div id="General" class="row h-100-justify-content-center align-items-center " >
+
+    <div class="container h-100 " style="margin-top:80px; border: 10px ridge RoyalBlue;">
+        <h1 style="color:black; margin-top:80px;"><center>Datos de Perfil<center></h1>
+        <div class="col-6 bg-white rounded my-3 p-5">
+        
+        <div class="form-row" style="margin-top:20px">
+            <div id="campo_email" class="form-group col-md-8">
+                {{ form_label(formulario.email)}}
+                {{ form_widget(formulario.email, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">    
+            <div id="campo_nombre" class="form-group col-md-8">
+                {{ form_label(formulario.nombre)}}
+                {{ form_widget(formulario.nombre, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_apellidos" class="form-group col-md-8">
+                {{ form_label(formulario.apellidos) }}
+                {{ form_widget(formulario.apellidos, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_telefono" class="form-group col-md-8">
+                {{ form_label(formulario.telefono) }}
+                {{ form_widget(formulario.telefono, {'attr':{'disabled':'disabled'} })}}
+            </div>    
+        </div>
+
+        <div class="form-row">
+            <div id="campo_fecha_alta" class="form-group col-md-7">
+                {{ form_label(formulario.fechaalta) }}
+                {{ form_widget(formulario.fechaalta, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="boton_volver" class="form-group col-md-6">
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+            </div>
+        </div>
+
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

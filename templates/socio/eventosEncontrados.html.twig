@@ -1,0 +1,73 @@
+{% extends 'socio/index.html.twig' %}
+
+{% block title %}{{parent()}} - Buscar Evento{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+<div class="container h-100 " style="margin-top:80px">
+    <h1 style="color:RoyalBlue"><center>LISTADO DE EVENTOS<center></h1>
+{% if eventos is not same as("") and eventos is not null and eventos is not empty %}
+
+
+    <table id="tbEvento" class="table align-middle" style="border: 10px ridge RoyalBlue; width:100%">
+        <thead class="thead-light" style="border-bottom-style:2px solid #24a690;">
+        
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Descripcion</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                    <div class="scrollit">
+                            {% for evento in eventos %}
+                                <tr id ='{{evento.id}}'>
+                                    <td>{{evento.id}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('images/event.png') }}" style="width: 35px; height: 35px;" class="rounded-circle">
+                                        </div>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1">{{evento.nombre}}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{evento.lugar}}</td>
+                                    <td>{{evento.fecha | date('d-m-Y')}}</td>
+                                    <td>{{evento.hora | date('H:i')}}</td>
+                                    <td>{{evento.descripcion}}</td>
+                                    <td align="center">                                   
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarEventoSocio', {id: evento.id})}}'"><img height="24px" src="{{ asset('images/consultar.png') }}" title="Consultar"/></button>                                 
+                                    </td> 
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container h-100 " style="margin-top:40px">
+    <div class="form-row">
+        <div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('eventoBuscarSocio')}}'">Volver</button>
+        </div>
+    </div>
+    </div>
+</div>
+{% else %}
+<div class="container h-100 " style="margin-top:40px">
+    <p style="text-align:center">Lo sentimos. No se ha encontrado ningun evento...</p>
+    <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('eventoBuscarSocio')}}'">Volver</button>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

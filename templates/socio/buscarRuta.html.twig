@@ -1,0 +1,83 @@
+{% extends 'socio/index.html.twig' %}
+
+{% block title %}{{parent()}} - Buscar Ruta{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+<div class="panel panel-default">
+    <form class="panel-heading"  style="background-color:RoyalBlue; border:RoyalBlue;">
+        <div class="container h-100 " style="margin-top:80px">
+        <h1 style="color:white"><center>Buscar un Ruta<center></h1>
+        <body onload="buscar();">
+        <div class="form-row">
+            <div id="campo_nombre" class="form-group col-md-6" style="color:white">
+                <label>Nombre </label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la ruta a buscar" >
+            </div>
+
+            <div id="campo_lugarinicio" class="form-group col-md-6" style="color:white">
+                <label>Lugar de Inicio </label>
+                <input type="text" class="form-control" id="lugarinicio" name="lugarinicio" placeholder="Lugar de inicio de la ruta a buscar" >
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_lugarfin" class="form-group col-md-6" style="color:white">
+                <label>Lugar de Fin </label>
+                <input type="text" class="form-control" id="lugarfin" name="lugarfin" placeholder="Lugar de fin de la ruta a buscar" >
+            </div>
+
+            <div id="campo_fecha" class="form-group col-md-6" style="color:white">
+                <label>Fecha</label>
+                <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha de la ruta a buscar" >
+            </div>
+            
+        </div>
+
+        <div class="form-row">
+            <div id="boton_buscar" class="form-group col-md-7">
+                <button type="button" class="btn btn-primary" onclick="buscar();"  style="background-color:DarkBlue; border:DarkBlue;">Buscar</button>
+            </div>
+        </div>
+
+        </div>
+    </form>
+
+    <div id="table_container"></div>
+
+</div>
+
+{# Contenedor en el que se actualizan los resultados de la búsqueda #}
+<div id="rutasEncontradas">
+</div>
+
+<script>
+    function buscar(){
+        
+        nombre = $("#nombre").val();
+        lugarinicio = $("#lugarinicio").val();
+        lugarfin = $("#lugarfin").val();
+        fecha = $("#fecha").val();
+        $("#rutasEncontradas").empty();
+        $.ajax
+        ({
+            type: "POST",
+            cache: true,
+            dataType: 'html',
+            url: "{{path('buscarRutaSocio')}}", 
+            data: {nombre: nombre, lugarinicio: lugarinicio, lugarfin: lugarfin, fecha: fecha},
+            success: function(html)
+            {
+                // Mostrar el resultado de la búsqueda
+                if(html !== ""){
+                    $("#rutasEncontradas").empty();
+                    $("#rutasEncontradas").html(html);
+                }
+            }
+        });
+    }
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% block body %}
+
+<h1> <center>LISTADO DE EVENTOS<center></h1>
+{% if eventos is not same as("") and eventos is not null and eventos is not empty %}
+
+    <table id="tbEvento" class="table align-middle">
+        <thead>
+        <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+        </style>
+            <tr>
+                <th>Nombre</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for evento in eventos %}
+                    <tr id ='{{evento.id}}'>
+                        <td>{{evento.nombre}}</td>
+                        <td>{{evento.lugar}}</td>
+                        <td>{{evento.fecha | date('d-m-Y')}}</td>
+                        <td>{{evento.hora | date('h:i')}}</td>
+                    </tr>
+                {% endfor %}
+            </tr>
+    </table>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

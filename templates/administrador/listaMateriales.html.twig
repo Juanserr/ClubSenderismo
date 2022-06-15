@@ -1,0 +1,54 @@
+{% block body %}
+
+<h1> <center>LISTADO DE MATERIAL DEPORTIVO<center></h1>
+{% if materiales is not same as("") and materiales is not null and materiales is not empty %}
+
+    <table id="tbMaterial" class="table align-middle">
+        <thead>
+        <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+        </style>
+            <tr>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Talla</th>
+                <th>Sexo</th>
+                <th>Color</th>
+                <th>Tela</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for material in materiales %}
+                    <tr id ='{{material.id}}'>
+                        <td>{{material.nombre}}</td>
+                        <td>{{material.marca}}</td>
+                        <td>{{material.talla}}</td>
+                        <td>{{material.sexo}}</td>
+                        <td>{{material.color}}</td>
+                        <td>{{material.tela}}</td>
+                    </tr>
+                {% endfor %}
+            </tr>
+    </table>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

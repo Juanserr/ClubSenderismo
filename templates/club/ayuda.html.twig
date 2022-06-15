@@ -1,0 +1,93 @@
+{% extends 'club/index.html.twig' %}
+
+{% block title %}{{parent()}} - Ayuda{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+
+<div class="container h-100 " style="margin-top:80px">
+
+    <h1 style="color:black; margin-top:40px;"><center>Ayuda<center></h1>
+
+    <ul>
+        <li><a href="#Inicio">Inicio</a></li>
+        <li><a href="#Rutas Inscritas">Rutas Inscritas</a></li>
+        <li><a href="#Buscar Ruta">Buscar Ruta</a></li>
+        <li><a href="#Buscar Evento">Buscar Evento</a></li>
+        <li><a href="#Buscar Material Deportivo">Buscar Material Deportivo</a></li>
+        <li><a href="#Solicitar ser Socio">Solicitar ser Socio</a></li>
+        <li><a href="#Iniciar Sesión">Cerrar Sesión</a></li>
+    </ul>
+
+    <h2 id="Inicio">Inicio</h2>
+
+    <p>La opción <strong>Inicio</strong> que se encuentra en la barra de navegación, podemos acceder a la página principal de la aplicación desde cualquier
+    parte de ella.</p>
+
+        <h2 id="Rutas Inscritas">Rutas Inscritas</h2>
+
+        <p>La opción <strong>Rutas Inscritas</strong> accede al buscador de rutas inscritas del usuario.
+            <p>Se le mostrará al usuario un formulario que deberá rellenar con su correo y contraseña para poder consultar las rutas inscritas.</p>
+            <p>Por defecto se mostrará la lista completa de rutas inscritas del usuario.</p>
+            <p>Las opciones disponibles para las rutas son:</p>
+            <ul>
+                <li><strong>Consultar Ruta:</strong> Visualiza la información de la ruta registrada con detalle.</li>
+                <li><strong>Anular Inscripción:</strong> Visualiza la informacion de la ruta inscrita y pregunta confirmación de la anulación
+                de inscripción al usuario.</li>
+            </ul>
+
+        <h2 id="Buscar ruta">Buscar ruta</h2>
+
+        <p>La opción <strong>Buscar ruta</strong>, accede al buscador de rutas.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de rutas registradas.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Ruta:</strong> Visualiza la información de la ruta registrada con detalle.</li>
+            <li><strong>Inscribirse a Ruta:</strong> Permite al usuario inscribirse a la ruta seleccionada.</li>
+        </ul>
+
+        <h2 id="Buscar evento">Buscar evento</h2>
+
+        <p>La opción <strong>Buscar evento</strong>, accede al buscador de eventos.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de eventos registrados.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Evento:</strong> Visualiza la información del evento registrado con detalle.</li>
+        </ul>
+
+        <h2 id="Buscar Material deportivo">Buscar Material Deportivo</h2>
+
+        <p>La opción <strong>Buscar Material deportivo</strong>, accede al buscador de material deportivo.
+        Se pueden filtrar los resultados de la búsqueda por parámetros introduciendo uno o varios parámetros de búsqueda en los
+        correspondientes campos y pulsando el botón <strong>Buscar</strong> para confirmar los filtros introducidos.</p>
+        <p>Por defecto se mostrará la lista completa de eventos registrados.</p>
+        <p>Las opciones disponibles para las rutas son:</p>
+        <ul>
+            <li><strong>Consultar Material Deportivo:</strong> Visualiza la información del material deportivo registrado con detalle.</li>
+        </ul>
+
+        <h2 id="Solicitar ser Socio">Solicitar ser Socio</h2>
+
+        <p>La opción <strong>Solicitar ser Socio</strong>, accede a un formulario con datos personales requerido para enviar 
+        la solicitud de socio.</p>
+    
+        <h2 id="Iniciar Sesión">Iniciar Sesión</h2>
+
+        <p>La opción <strong>Iniciar sesión</strong> de la barra de navegación, muestra al usuario un formulario de acceso a la aplicación.</p>
+
+</div>
+
+<div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+        </div>
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'club/index.html.twig' %}
+
+{% block title %}{{parent()}} - Buscar Evento{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+<div class="panel panel-default">
+    <form class="panel-heading"  style="background-color:RoyalBlue; border:RoyalBlue;">
+        <div class="container h-100 " style="margin-top:80px">
+        <h1 style="color:white"><center>Buscar un Evento<center></h1>
+        <body onload="buscar();">
+        <div class="form-row">
+            <div id="campo_nombre" class="form-group col-md-6" style="color:white">
+                <label>Nombre </label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del evento a buscar" >
+            </div>
+
+            <div id="campo_lugar" class="form-group col-md-6" style="color:white">
+                <label>Lugar</label>
+                <input type="text" class="form-control" id="lugar" name="lugar" placeholder="Lugar del evento a buscar" >
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_fecha" class="form-group col-md-6" style="color:white">
+                <label>Fecha</label>
+                <input type="text" class="form-control" id="fecha" name="fecha" placeholder="Fecha del evento a buscar" >
+            </div>
+
+            <div id="campo_hora" class="form-group col-md-6" style="color:white">
+                <label>Hora</label>
+                <input type="text" class="form-control" id="hora" name="hora" placeholder="Hora del evento a buscar" >
+            </div>
+            
+        </div>
+
+        <div class="form-row">
+            <div id="campo_descripcion" class="form-group col-md-6" style="color:white">
+                <label>Descripcion</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion del evento a buscar" >
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="boton_buscar" class="form-group col-md-7">
+                <button type="button" class="btn btn-primary" onclick="buscar();"  style="background-color:DarkBlue; border:DarkBlue;">Buscar</button>
+            </div>
+        </div>
+
+        </div>
+    </form>
+
+    <div id="table_container"></div>
+
+</div>
+
+{# Contenedor en el que se actualizan los resultados de la búsqueda #}
+<div id="eventosEncontrados">
+</div>
+
+<script>
+    function buscar(){
+        
+        nombre = $("#nombre").val();
+        lugar = $("#lugar").val();
+        fecha = $("#fecha").val();
+        hora = $("#hora").val();
+        descripcion = $("#descripcion").val();
+        $("#eventosEncontrados").empty();
+        $.ajax
+        ({
+            type: "POST",
+            cache: true,
+            dataType: 'html',
+            url: "{{path('buscarEventoUsuario')}}", 
+            data: {nombre: nombre, lugar: lugar, hora: hora, fecha: fecha, descripcion: descripcion},
+            success: function(html)
+            {
+                // Mostrar el resultado de la búsqueda
+                if(html !== ""){
+                    $("#eventosEncontrados").empty();
+                    $("#eventosEncontrados").html(html);
+                }
+            }
+        });
+    }
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'club/index.html.twig' %}
+{% block title %}{{parent()}} - Solicitud de datos{% endblock %}
+{% block body %}
+
+{{parent()}}
+
+{% for message in app.flashes('exito') %}
+    <div class= "alert alert-success" style="margin-top:80px">>
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('danger') %}
+    <div class= "alert alert-danger" style="margin-top:80px">>
+        {{ message }}
+    </div>
+{% endfor %}
+
+<div class="container h-100 " style="margin-top:80px">
+    <div class="row justify-content-center align-items-center" style="margin-top:30px; border: 10px ridge RoyalBlue;">
+        <div class="col-8 bg-white rounded my-3 p-5">
+        <h2>SOLICITUD DE CORREO Y CONTRASEÑA</h2>
+            <div style="margin-top:20px">
+                <h4>Introduzca sus credenciales</h4>
+                <div style="class=form-row">
+                    {{form(formulario)}}
+                </div>
+            </div>
+            
+            <div style="margin-top:10px">
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}
