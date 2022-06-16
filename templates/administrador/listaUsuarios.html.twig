@@ -23,8 +23,8 @@
         }
         </style>
             <tr>
-                <th>Email</th>
                 <th>Nombre</th>
+                <th>Email</th>
                 <th>Teléfono</th>
             </tr>
         </thead>
@@ -32,8 +32,8 @@
             <tr>
                 {% for usuario in usuarios %}
                     <tr id ='{{usuario.id}}'>
+                        <td>{{usuario.apellidos}}, {{usuario.nombre}}</td>
                         <td>{{usuario.email}}</td>
-                        <td>{{usuario.nombre}} {{usuario.apellidos}}</td>
                         <td>{{usuario.telefono}}</td>
                     </tr>
                 {% endfor %}

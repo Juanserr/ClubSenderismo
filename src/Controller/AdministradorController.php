@@ -55,7 +55,7 @@ class AdministradorController extends AbstractController
         $ultimomaterial = $em->getRepository(MaterialDeportivo::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
         $message = "Usted se ha logueado como Administrador con el correo {$usuario->getEmail()}.";
-        $this->addFlash('info', $message);
+        $this->addFlash('informacion', $message);
         return $this->render('administrador/index.html.twig', [
             'controller_name' => 'UsuarioController',
             'ruta' => $ultimaruta,
@@ -2769,7 +2769,7 @@ class AdministradorController extends AbstractController
         $pdfOptions->set('defaultFont', 'Arial');
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
-        $usuarios = $em->getRepository(Usuario::class)->findAll();
+        $usuarios = $em->getRepository(Usuario::class)->findBy(array(), array('apellidos' => 'ASC'));
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView('administrador/listaUsuarios.html.twig', [
             'controller_name' => '',
