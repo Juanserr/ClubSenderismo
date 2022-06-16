@@ -53,6 +53,9 @@ class AdministradorController extends AbstractController
         $ultimaruta = $em->getRepository(Ruta::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $ultimoevento = $em->getRepository(Evento::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $ultimomaterial = $em->getRepository(MaterialDeportivo::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $message = "Usted se ha logueado como Administrador con el correo {$usuario->getEmail()}.";
+        $this->addFlash('info', $message);
         return $this->render('administrador/index.html.twig', [
             'controller_name' => 'UsuarioController',
             'ruta' => $ultimaruta,
@@ -755,7 +758,7 @@ class AdministradorController extends AbstractController
         $usuario = $em->getRepository(Usuario::class)->find($id);
         //CREACIÓN FORMULARIO
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-
+        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //SE ACTUALIZA EN LA BBDD
@@ -2688,22 +2691,20 @@ class AdministradorController extends AbstractController
     //-----------------
 
 
-    #[Route('/administrador/perfil/editar', name: 'editarPerfilAdmin')]
-    public function editarPerfil(Request $request): Response
+    #[Route('/administrador/perfil/editar/{id}', name: 'editarPerfilAdmin')]
+    public function editarPerfil(Request $request, $id): Response
     {
-        $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
-
         //DATOS DE USUARIO
-        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-
+        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-
+            
             $em->persist($usuario);
             $em->flush();
-
+            $this->addFlash(type: 'success', message: 'Ha editado su perfil correctamente.');
             return $this->redirectToRoute(route: 'app_administrador');
         }
 

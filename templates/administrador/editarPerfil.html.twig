@@ -1,11 +1,92 @@
 {% extends 'administrador/index.html.twig' %}
 
-{% block title %}{{parent()}} - Editar Perfil{% endblock %}
+{% block title %} Editar Perfil{% endblock %}
 
 {% block body %}
+{# Barra de navegación #}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header" href="#">Club de Senderismo y Montañismo</a>
+            <img src="{{ asset('images/icon.png') }}" alt="Club Senderismo" height="40">
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-{{parent()}}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" href="{{path('app_administrador')}}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li></li>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Usuarios
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('usuarioBuscarAdmin')}}">Buscar Usuario</a>
+                        <a class="dropdown-item" href="{{path('registrarUsuarioAdmin')}}">Registrar Usuario</a>
+                        <a class="dropdown-item" href="{{path('buscarSolicitudesAdmin')}}">Solicitudes de admisión socio</a>
+                        <a class="dropdown-item" href="{{path('buscarBajaAdmin')}}">Solicitudes de baja socio</a>
+                    </div>
+            </div>
 
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mi actividad
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('rutasInscritasBuscarAdmin')}}">Rutas</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Rutas
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('rutaBuscarAdmin')}}">Buscar Ruta</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarRuta')}}">Registrar Ruta</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Eventos
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('eventoBuscarAdmin')}}">Buscar Evento</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarEvento')}}">Registrar Evento</a>
+                    </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Material Deportivo
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('materialBuscarAdmin')}}">Buscar Material Deportivo</a>
+                        <a class="dropdown-item" href="{{path('AdministradorRegistrarMaterial')}}">Registrar Material Deportivo</a>
+                    </div>
+            </div>
+
+                <li class="nav-item active"><a class="nav-link" type="button" href="{{path('ayudaAdministrador')}}"><span class="glyphicon glyphicon-home"></span> Ayuda</a></li></li>
+                <li class="nav-item active"><a class="nav-link" type="button" href="{{path('app_logout')}}"><span class="glyphicon glyphicon-home"></span> Cerrar Sesión</a></li></li>
+            </div>
+            
+            </ul>
+        </div>
+    </div>
+    </nav>
+
+{% for message in app.flashes('success') %}
+        <div class= "alert alert-success" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
+
+        {% for message in app.flashes('danger') %}
+        <div class= "alert alert-danger" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+    {% endfor %}
 <div class="container h-100 " style="margin-top:80px">
     <div class="row justify-content-center align-items-center" style="margin-top:30px; border: 10px ridge RoyalBlue;">
         <div class="col-8 bg-white rounded my-3 p-5">

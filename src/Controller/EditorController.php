@@ -49,6 +49,9 @@ class EditorController extends AbstractController
         $ultimaruta = $em->getRepository(Ruta::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $ultimoevento = $em->getRepository(Evento::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $ultimomaterial = $em->getRepository(MaterialDeportivo::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $message = "Usted se ha logueado como Editor con el correo {$usuario->getEmail()}.";
+        $this->addFlash('info', $message);
         return $this->render('editor/index.html.twig', [
             'controller_name' => 'UsuarioController',
             'ruta' => $ultimaruta,
@@ -718,7 +721,7 @@ class EditorController extends AbstractController
         $usuario = $em->getRepository(Usuario::class)->find($id);
         //CREACIÓN FORMULARIO
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-
+        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //SE ACTUALIZA EN LA BBDD
@@ -2605,13 +2608,13 @@ class EditorController extends AbstractController
         //DATOS DE USUARIO
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-
+        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
             $em->persist($usuario);
             $em->flush();
-
+            $this->addFlash(type: 'success', message: 'Ha editado su perfil correctamente.');
             return $this->redirectToRoute(route: 'app_editor');
         }
 
