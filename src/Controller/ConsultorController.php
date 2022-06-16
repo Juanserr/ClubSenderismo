@@ -47,7 +47,7 @@ class ConsultorController extends AbstractController{
         $ultimomaterial = $em->getRepository(MaterialDeportivo::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
         $message = "Usted se ha logueado como Consultor con el correo {$usuario->getEmail()}.";
-        $this->addFlash('info', $message);
+        $this->addFlash('informacion', $message);
         return $this->render('consultor/index.html.twig', [
             'controller_name' => 'UsuarioController',
             'ruta' => $ultimaruta,

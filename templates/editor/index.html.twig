@@ -95,6 +95,12 @@
         </div>
     {% endfor %}
 
+    {% for message in app.flashes('informacion') %}
+        <div class= "alert alert-info" role="alert" style="margin-top:80px" >
+            {{ message }}
+        </div>
+        {% endfor %}
+
         {% for message in app.flashes('danger') %}
         <div class= "alert alert-danger" role="alert" style="margin-top:80px" >
             {{ message }}
