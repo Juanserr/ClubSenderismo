@@ -306,6 +306,12 @@ class UsuarioController extends AbstractController
                 $this->addFlash('info', 'Ese email ya ha sido usado anteriormente. Si conoce la contraseña, puede seguir con la solicitud');
                 return $this->redirectToRoute('loginSocio', ['id' => $id]);
             }
+
+            $telefono= strlen((string) $usuario->getTelefono());
+            if ($telefono != '9') {
+                $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
+                return $this->redirectToRoute(route: 'solicitarSocioUsuario');
+            }
             
             //Fecha de Registro
             $usuario->setFechaalta(\DateTime::createFromFormat('Y-m-d',date('Y-m-d')));

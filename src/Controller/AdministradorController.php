@@ -761,6 +761,11 @@ class AdministradorController extends AbstractController
         $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $telefono= strlen((string) $usuario->getTelefono());
+            if ($telefono != '9') {
+                $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
+                return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
+            }
             //SE ACTUALIZA EN LA BBDD
             $em->persist($usuario);
             $em->flush();
@@ -940,7 +945,11 @@ class AdministradorController extends AbstractController
             
             $em = $this->getDoctrine()->getManager();
             //Fecha de Registro
-
+            $telefono= strlen((string) $usuario->getTelefono());
+            if ($telefono != '9') {
+                $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
+                return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
+            }
             $usuario->setFechaalta(\DateTime::createFromFormat('Y-m-d',date('Y-m-d'))); 
             //Codificación
             $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));

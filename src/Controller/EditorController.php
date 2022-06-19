@@ -38,7 +38,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class EditorController extends AbstractController
 {
@@ -723,8 +723,20 @@ class EditorController extends AbstractController
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
         $form->remove('email');
         $form->handleRequest($request);
+        //¿ES ADMINISTRADOR?
+        if ($usuario->esAdministrador()) {
+            $this->addFlash('error','No puede editar un usuario con rol de Administrador');
+            return $this->redirectToRoute(route: 'usuarioBuscarEditor');
+        }
+
         if($form->isSubmitted() && $form->isValid()){
             //SE ACTUALIZA EN LA BBDD
+
+            $telefono= strlen((string) $usuario->getTelefono());
+            if ($telefono != '9') {
+                $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
+                return $this->redirectToRoute(route: 'usuarioBuscarEditor');
+            }
             $em->persist($usuario);
             $em->flush();
             //REDIRECCIÓN
@@ -790,7 +802,7 @@ class EditorController extends AbstractController
 
         //¿ES ADMINISTRADOR?
         if ($usuario->esAdministrador()) {
-            $this->addFlash('danger','No puede eliminar un usuario con rol de Administrador');
+            $this->addFlash('error','No puede eliminar un usuario con rol de Administrador');
             return $this->redirectToRoute(route: 'usuarioBuscarEditor');
         }
 
@@ -892,6 +904,12 @@ class EditorController extends AbstractController
 
             if ($usuario->esAdministrador()) {
                 $this->addFlash(type: 'danger', message: 'No puede registrar a un usuario con el rol de Administrador.');
+                return $this->redirectToRoute(route: 'usuarioBuscarEditor');
+            }
+
+            $telefono= strlen((string) $usuario->getTelefono());
+            if ($telefono != '9') {
+                $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
                 return $this->redirectToRoute(route: 'usuarioBuscarEditor');
             }
 
