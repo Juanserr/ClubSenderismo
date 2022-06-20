@@ -21,6 +21,7 @@ class ConfirmarUsuarioType extends AbstractType
         $builder
         ->add('email', EmailType::class, array(
             'label' => 'Correo electrónico', 
+            'disabled' => true,
             'required' => true,
             'attr' => array('maxlenght' => 64)))
 
@@ -50,10 +51,8 @@ class ConfirmarUsuarioType extends AbstractType
         ->add('roles', ChoiceType::class, [
             'label' => 'Rol del Usuario',
             'required' => true,
-            'disabled' => true,
             'multiple' => false,
             'choices' => [
-                'Sin Rol' => '',
                 'Socio' => 'ROLE_SOCIO',
                 'Consultor' => 'ROLE_CONSULTOR',
                 'Editor' => 'ROLE_EDITOR',

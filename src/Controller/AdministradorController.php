@@ -25,6 +25,7 @@ use App\Entity\Editor;
 use App\Entity\MaterialDeportivo;
 use App\Entity\RutaConInscripcion;
 use App\Entity\SocioMaterialdeportivo;
+use App\Entity\SocioRuta;
 use App\Form\ConfirmarUsuarioType;
 use App\Form\DatosRutaType;
 use App\Form\DatosMaterialType;
@@ -753,26 +754,148 @@ class AdministradorController extends AbstractController
     {
         $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
-
+        $output = new ConsoleOutput();
         //BÚSQUEDA DEL USUARIO
         $usuario = $em->getRepository(Usuario::class)->find($id);
+        $roldeusuario=implode('[]', $usuario->getRoles());
+        $output->writeln($roldeusuario);
+
         //CREACIÓN FORMULARIO
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            
             $telefono= strlen((string) $usuario->getTelefono());
             if ($telefono != '9') {
                 $this->addFlash(type: 'danger', message: 'El número de teléfono debe tener una longitud de 9 dígitos.');
                 return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
             }
-            //SE ACTUALIZA EN LA BBDD
+
+            $rol=implode('[]', $form['roles']->getData());
+
+            
+            if($rol != $roldeusuario){
+                $editor = new Editor();
+                $administrador = new Administrador();
+                $consultor = new Consultor();
+                $socio = new Socio();
+                $rutasins = $em->getRepository(UsuarioRuta::class)->findBy(array('id_usuario' => $usuario->getId()));
+
+                if($rutasins != null){
+                        
+                    for($i = 0; $i < sizeof($rutasins); $i++) {
+                        //Cogemos la ruta con inscripcion una a una del array de 'Rutas'
+                        //BORRAMOS SU SOLICITUD
+                        $em->remove($rutasins[$i]);
+                        $em->flush();
+                    }
+                }
+
+
+                if ($roldeusuario == 'ROLE_EDITOR') {
+                    $output->writeln('EDITOR');
+                    $editor = new Editor();
+                    $editor = $em->getRepository(Editor::class)->findOneBy(array('usuario' => $id));
+    
+                    $em->remove($editor);
+                    $em->flush();
+                }
+                if ($roldeusuario == 'ROLE_CONSULTOR') {
+                    $output->writeln('CONSULTOR');
+                    $consultor = new Consultor();
+                    $consultor = $em->getRepository(Consultor::class)->findOneBy(array('usuario' => $id));
+    
+                    $em->remove($consultor);
+                    $em->flush();
+                }
+
+                if ($roldeusuario == 'ROLE_ADMINISTRADOR') {
+                    $output->writeln('ADMIN');
+                    $administrador = new Administrador();
+                    $administrador = $em->getRepository(Administrador::class)->findOneBy(array('usuario' => $id));
+    
+                    $em->remove($administrador);
+                    $em->flush();
+                }
+                
+                if ($roldeusuario == 'ROLE_SOCIO') {
+                    $output->writeln('SOCIO');
+                    $socio = $em->getRepository(Socio::class)->findOneBy(array('usuario' => $id));
+                    //SI EL USUARIO HA SOLICITADO MATERIAL
+                    $materiales = $em->getRepository(SocioMaterialdeportivo::class)->findBy(array('id_usuario' => $socio->getId()));
+                    $rutas = $em->getRepository(SocioRuta::class)->findBy(array('id_usuario' => $socio->getId()));
+
+                    if($rutas != null){
+                        
+                        for($i = 0; $i < sizeof($rutas); $i++) {
+                            //Cogemos la ruta con inscripcion una a una del array de 'Rutas'
+                            //BORRAMOS SU SOLICITUD
+                            $em->remove($rutas[$i]);
+                            $em->flush();
+                        }
+                    }
+
+                    if($materiales != null){
+                        
+                        for($i = 0; $i < sizeof($materiales); $i++) {
+                            //Cogemos la ruta con inscripcion una a una del array de 'Rutas'
+                            //BORRAMOS SU SOLICITUD
+                            $em->remove($materiales[$i]);
+                            $em->flush();
+                        }
+                    }
+                    $em->remove($socio);
+                    $em->flush();
+
+                }
+                $em->persist($usuario);
+                $em->flush();
+                //Se crea la tupla del tipo de usuario según el tipo elegido en el formulario
+                if ($rol == 'ROLE_SOCIO') {
+                    $em = $this->getDoctrine()->getManager();
+                    $socio->setUsuario($usuario);
+                    $em->persist($socio);
+                    $em->flush();
+                }
+
+                if ($rol == 'ROLE_CONSULTOR') {
+                    $output->writeln('AD CON');
+                    $em = $this->getDoctrine()->getManager();
+                    $consultor->setUsuario($usuario);
+                    $em->persist($consultor);
+                    $em->flush();
+                }
+
+                if ($rol == 'ROLE_EDITOR') {
+                    $output->writeln('AD EDI');
+                    $em = $this->getDoctrine()->getManager();
+                    $editor->setUsuario($usuario);
+                    $em->persist($editor);
+                    $em->flush();
+                }
+
+                if ($rol == 'ROLE_ADMINISTRADOR') {
+                    $output->writeln('AD ADM');
+                    $em = $this->getDoctrine()->getManager();
+                    $administrador->setUsuario($usuario);
+                    $em->persist($administrador);
+                    $em->flush();
+                }
+
+                //REDIRECCIÓN
+                $this->addFlash('exito','El usuario se ha editado correctamente');
+                return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
+                    
+            }
+            $output->writeln('NO');
             $em->persist($usuario);
             $em->flush();
             //REDIRECCIÓN
             $this->addFlash('exito','El usuario se ha editado correctamente');
             return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
+                
         }
+            
 
         return $this->render('administrador/editarUsuario.html.twig', [
             'controller_name' => '',
@@ -2707,7 +2830,6 @@ class AdministradorController extends AbstractController
         //DATOS DE USUARIO
         $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
-        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             

@@ -40,6 +40,7 @@ class MaterialDeportivoType extends AbstractType
                 'choices'  => [
                     'Hombre' => 'Hombre',
                     'Mujer' => 'Mujer',
+                    'Hombre y Mujer' => 'Hombre y Mujer'
                 ],
                 'required' => true))
             ->add('color', TextType::class, array(
