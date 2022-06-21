@@ -1377,6 +1377,10 @@ class EditorController extends AbstractController
                 $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
                 return $this->redirectToRoute(route: 'rutaBuscarEditor');
             }
+            if($ruta->getHoraInicio() > $ruta->getHoraFin){
+                $this->addFlash(type: 'error', message: 'ERROR:  La hora de fin debe ser posterior a la de inicio.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
             //Se guarda la ruta en la base de datos
             $em->persist($ruta);
             $em->flush();
@@ -1432,6 +1436,7 @@ class EditorController extends AbstractController
                 $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de no socios de la ruta debe ser anterior a la fecha de la ruta.');
                 return $this->redirectToRoute(route: 'rutaBuscarEditor');
             }
+            
             $em->persist($ruta);
             $em->persist($rutaIns);
             $em->flush();
@@ -2047,7 +2052,13 @@ class EditorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
+            $now = date_create("now");
+            if($evento->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha del evento debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'eventoBuscarAdmin');
+            }
             //Se guarda el evento en la base de datos
+            
             $em->persist($evento);
             $em->flush();
             //Se crea la tupla del evento en el formulario

@@ -272,6 +272,15 @@ class UsuarioController extends AbstractController
             //Buscar todos las rutas
             $temp = $em->getRepository(Ruta::class)->findAll();
         }
+
+        $now = date_create("now");
+        for($i = 0; $i < sizeof($temp); $i++) {
+            //Eliminamos la ruta que ya ha pasado de fecha
+            if($temp[$i]->getFecha()<$now){
+                unset($temp[$i]);
+            }
+            
+        }
                 //$encoders = [new XmlEncoder(), new JsonEncoder()];
 
                 //TO DO
@@ -1019,6 +1028,15 @@ class UsuarioController extends AbstractController
             //Buscar todos los eventos
             $temp = $em->getRepository(Evento::class)->findAll();
         }
+
+        $now = date_create("now");
+        for($i = 0; $i < sizeof($temp); $i++) {
+            //Eliminamos la ruta que ya ha pasado de fecha
+            if($temp[$i]->getFecha()<$now){
+                unset($temp[$i]);
+            }
+            
+        }
                 //$encoders = [new XmlEncoder(), new JsonEncoder()];
 
                 //TO DO
@@ -1430,6 +1448,15 @@ class UsuarioController extends AbstractController
         }else {
             //Buscar todos los materiales deportivos
             $temp = $em->getRepository(MaterialDeportivo::class)->findAll();
+        }
+
+        $now = date_create("now");
+        for($i = 0; $i < sizeof($temp); $i++) {
+            //Eliminamos la ruta que ya ha pasado de fecha
+            if($temp[$i]->getFechaLimite()<$now){
+                unset($temp[$i]);
+            }
+            
         }
 
                 return $this->render('club/materialesEncontrados.html.twig', [

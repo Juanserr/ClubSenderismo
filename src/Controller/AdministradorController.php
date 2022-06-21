@@ -1348,6 +1348,8 @@ class AdministradorController extends AbstractController
         }else {
             //Buscar todos las rutas
             $temp = $em->getRepository(Ruta::class)->findAll();
+
+            
         }
                 //$encoders = [new XmlEncoder(), new JsonEncoder()];
 
@@ -1550,6 +1552,10 @@ class AdministradorController extends AbstractController
             $now = date_create("now");
             if($ruta->getFecha() < $now){
                 $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
+            if($ruta->getHoraInicio() > $ruta->getHoraFin()){
+                $this->addFlash(type: 'error', message: 'ERROR:  La hora de fin debe ser posterior a la hora de inicio.');
                 return $this->redirectToRoute(route: 'rutaBuscarAdmin');
             }
             $em->persist($ruta);
@@ -2225,6 +2231,11 @@ class AdministradorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             //Se guarda el evento en la base de datos
+            $now = date_create("now");
+            if($evento->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha del evento debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'eventoBuscarAdmin');
+            }
             $em->persist($evento);
             $em->flush();
             //Se crea la tupla del evento en el formulario

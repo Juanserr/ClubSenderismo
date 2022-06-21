@@ -15,6 +15,11 @@
         {{ message }}
     </div>
 {% endfor %}
+{% for message in app.flashes('error') %}
+    <div class= "alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div class="container h-100 " style="margin-top:80px">
     <h1 style="color:RoyalBlue"><center>LISTADO DE RUTAS<center></h1>
 {% if rutas is not same as("") and rutas is not null and rutas is not empty %}
