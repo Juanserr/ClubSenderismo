@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -52,6 +53,10 @@ class MaterialDeportivoType extends AbstractType
                 'required' => true,
                 'attr' => array('maxlength' => 64)))
             //->add('fecha_oferta')
+            ->add('FechaLimite', DateType::class, array(
+                'label' => 'Fecha límite para solicitar la prenda',
+                'widget' => 'choice',
+                'required' => true))
             ->add('Confirmar', type: SubmitType::class)
                 
         ;

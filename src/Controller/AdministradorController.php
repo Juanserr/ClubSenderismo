@@ -1408,13 +1408,36 @@ class AdministradorController extends AbstractController
         //CREACIÓN FORMULARIO
         $form = $this->createForm(RutaType::class, $ruta);
         if($em->getRepository(RutaConInscripcion::class)->findBy(array('ruta' => $id))){
-            
+
+            $now = date_create("now");
+            if($ruta->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
+
             $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
             //CREACIÓN FORMULARIO RUTA INSCRIPCION
             $formI = $this->createForm(DatosInscripcionType::class, $rutaIns);
             $formI->handleRequest($request);
             if($formI->isSubmitted() && $formI->isValid()){
                 //SE ACTUALIZA EN LA BBDD
+                $now = date_create("now");
+                if($rutaIns->getFechaSocio() < $now){
+                    $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de socios debe ser posterior al día de hoy.');
+                    return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+                }
+                if($rutaIns->getFechaNosocio() < $now){
+                    $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de no socios de la ruta debe ser posterior al día de hoy.');
+                    return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+                }
+                if($rutaIns->getFechaSocio() > $ruta->getFecha()){
+                    $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de socios de la ruta debe ser anterior a la fecha de la ruta.');
+                    return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+                }
+                if($rutaIns->getFechaNosocio() > $ruta->getFecha()){
+                    $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de no socios de la ruta debe ser anterior a la fecha de la ruta.');
+                    return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+                }
                 $em->persist($ruta);
                 $em->persist($rutaIns);
                 $em->flush();
@@ -1524,6 +1547,11 @@ class AdministradorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             //Se guarda la ruta en la base de datos
+            $now = date_create("now");
+            if($ruta->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
             $em->persist($ruta);
             $em->flush();
             //Se crea la tupla de la ruta en el formulario
@@ -1561,7 +1589,23 @@ class AdministradorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //SE ACTUALIZA EN LA BBDD
-
+            $now = date_create("now");
+            if($rutaIns->getFechaSocio() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de socios debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
+            if($rutaIns->getFechaNosocio() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de no socios de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
+            if($rutaIns->getFechaSocio() > $ruta->getFecha()){
+                $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de socios de la ruta debe ser anterior a la fecha de la ruta.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
+            if($rutaIns->getFechaNosocio() > $ruta->getFecha()){
+                $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de no socios de la ruta debe ser anterior a la fecha de la ruta.');
+                return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            }
             $em->persist($ruta);
             $em->persist($rutaIns);
             $em->flush();
@@ -2620,7 +2664,11 @@ class AdministradorController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-
+            $now = date_create("now");
+            if($material->getFechaLimite() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha límite introducida debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'materialBuscarAdmin');
+            }
             /** @var UploadedFile $imagen */
             $imagen = $form->get('imagen_prenda')->getData();
 
@@ -2744,8 +2792,11 @@ class AdministradorController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-
-
+            $now = date_create("now");
+            if($material->getFechaLimite() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha límite introducida debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'materialBuscarAdmin');
+            }
 
             /** @var UploadedFile $imagen */
             $imagen = $form->get('imagen_prenda')->getData();

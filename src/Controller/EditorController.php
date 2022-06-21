@@ -1236,13 +1236,34 @@ class EditorController extends AbstractController
         //CREACIÓN FORMULARIO
         $form = $this->createForm(RutaType::class, $ruta);
         if($em->getRepository(RutaConInscripcion::class)->findBy(array('ruta' => $id))){
-            
+            $now = date_create("now");
+            if($ruta->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
             $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
             //CREACIÓN FORMULARIO RUTA INSCRIPCION
             $formI = $this->createForm(DatosInscripcionType::class, $rutaIns);
             $formI->handleRequest($request);
             if($formI->isSubmitted() && $formI->isValid()){
                 //SE ACTUALIZA EN LA BBDD
+                $now = date_create("now");
+                if($rutaIns->getFechaSocio() < $now){
+                    $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de socios debe ser posterior al día de hoy.');
+                    return $this->redirectToRoute(route: 'rutaBuscarEditor');
+                }
+                if($rutaIns->getFechaNosocio() < $now){
+                    $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de no socios de la ruta debe ser posterior al día de hoy.');
+                    return $this->redirectToRoute(route: 'rutaBuscarEditor');
+                }
+                if($rutaIns->getFechaSocio() > $ruta->getFecha()){
+                    $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de socios de la ruta debe ser anterior a la fecha de la ruta.');
+                    return $this->redirectToRoute(route: 'rutaBuscarEditor');
+                }
+                if($rutaIns->getFechaNosocio() > $ruta->getFecha()){
+                    $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de no socios de la ruta debe ser anterior a la fecha de la ruta.');
+                    return $this->redirectToRoute(route: 'rutaBuscarEditor');
+                }
                 $em->persist($ruta);
                 $em->persist($rutaIns);
                 $em->flush();
@@ -1351,6 +1372,11 @@ class EditorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
+            $now = date_create("now");
+            if($ruta->getFecha() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
             //Se guarda la ruta en la base de datos
             $em->persist($ruta);
             $em->flush();
@@ -1389,7 +1415,23 @@ class EditorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //SE ACTUALIZA EN LA BBDD
-
+            $now = date_create("now");
+            if($rutaIns->getFechaSocio() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de socios debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
+            if($rutaIns->getFechaNosocio() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha de inscripción de no socios de la ruta debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
+            if($rutaIns->getFechaSocio() > $ruta->getFecha()){
+                $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de socios de la ruta debe ser anterior a la fecha de la ruta.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
+            if($rutaIns->getFechaNosocio() > $ruta->getFecha()){
+                $this->addFlash(type: 'error', message: 'ERROR:  La fecha de inscripción de no socios de la ruta debe ser anterior a la fecha de la ruta.');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
             $em->persist($ruta);
             $em->persist($rutaIns);
             $em->flush();
@@ -1425,7 +1467,7 @@ class EditorController extends AbstractController
         $now = date_create("now");
         if($rutaIns->getFechaNosocio() > $now){
             $this->addFlash('info', 'Lo sentimos...Aún no se ha abierto el plazo de inscripción');
-            return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            return $this->redirectToRoute(route: 'rutaBuscarEditor');
         }
 
         $inscrito = $em->getRepository(UsuarioRuta::class)->findOneBy(array('id_usuario' => $usuario->getId(), 'id_ruta' => $rutaIns->getId()));
@@ -1496,7 +1538,7 @@ class EditorController extends AbstractController
         $rutaIns = new RutaConInscripcion();
         if(!$em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id))){
             $this->addFlash('info', 'Esta ruta no requiere inscripción previa');
-            return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            return $this->redirectToRoute(route: 'rutaBuscarEditor');
         }
         //$this->getUser()->getId()
         //SE ACTUALIZA EN LA BBDD
@@ -2445,6 +2487,40 @@ class EditorController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $now = date_create("now");
+            if($material->getFechaLimite() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha límite introducida debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'materialBuscarEditor');
+            }
+            /** @var UploadedFile $imagen */
+            $imagen = $form->get('imagen_prenda')->getData();
+
+            //La imagen es un atributo opcional(puede ser null). Si se ha subido un archivo al formulario, se procesa
+            if ($imagen) {
+                $originalFilename = pathinfo($imagen->getClientOriginalName(), PATHINFO_FILENAME);
+
+                //Se necesita para incluir el nombre del archivo como parte de la ruta de manera segura
+                $slugger = new AsciiSlugger();
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imagen->guessExtension();
+
+                //Obtener la ruta para guardar en la base de datos
+                $newFilenameRoute = '\uploads\images\\'.$newFilename;
+
+                //Mover el archivo a la carpeta donde se almacenan las imágenes
+                try {
+                    $imagen->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception('Ha ocurrido un error');
+                }
+
+                //Se actualiza el atributo de la imagen para almacenar la ruta en la que se guarda la imagen, en lugar de guardar la imagen en la base de datos
+                $material->setImagenPrenda($newFilenameRoute);
+            }
+
             //SE ACTUALIZA EN LA BBDD
             $em->persist($material);
             $em->flush();
@@ -2539,7 +2615,11 @@ class EditorController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid()){
 
-
+            $now = date_create("now");
+            if($material->getFechaLimite() < $now){
+                $this->addFlash(type: 'error', message: 'ERROR: La fecha límite introducida debe ser posterior al día de hoy.');
+                return $this->redirectToRoute(route: 'materialBuscarEditor');
+            }
 
             /** @var UploadedFile $imagen */
             $imagen = $form->get('imagen_prenda')->getData();

@@ -42,6 +42,9 @@ class MaterialDeportivo
     #[ORM\OneToMany(mappedBy: 'id_material', targetEntity: SocioMaterialdeportivo::class)]
     private $socioMaterialdeportivos;
 
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $FechaLimite;
+
     public function __construct()
     {
         $this->socioMaterialdeportivos = new ArrayCollection();
@@ -174,6 +177,18 @@ class MaterialDeportivo
                 $socioMaterialdeportivo->setIdMaterial(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFechaLimite(): ?\DateTimeInterface
+    {
+        return $this->FechaLimite;
+    }
+
+    public function setFechaLimite(\DateTimeInterface $FechaLimite): self
+    {
+        $this->FechaLimite = $FechaLimite;
 
         return $this;
     }
