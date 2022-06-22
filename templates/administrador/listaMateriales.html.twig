@@ -29,6 +29,7 @@
                 <th>Sexo</th>
                 <th>Color</th>
                 <th>Tela</th>
+                <th>Fecha Límite</th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                         <td>{{material.sexo}}</td>
                         <td>{{material.color}}</td>
                         <td>{{material.tela}}</td>
+                        <td>{{material.FechaLimite | date('d-m-Y')}}</td>
                     </tr>
                 {% endfor %}
             </tr>
