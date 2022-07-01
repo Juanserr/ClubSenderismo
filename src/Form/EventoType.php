@@ -39,7 +39,7 @@ class EventoType extends AbstractType
                 'required' => true,
                 'attr' => array('maxlength' => 500)))    
             
-            ->add('Guardar', SubmitType::class)
+            ->add('Confirmar', SubmitType::class)
         ;
     }
 
