@@ -28,7 +28,7 @@ class DatosInscripcionType extends AbstractType
                 'required' => true))
 
             ->add('fecha_nosocio', DateType::class, array(
-                'label' => 'Fecha de inscripción para personas que no son socias al club',
+                'label' => 'Fecha de inscripción para no socios al club',
                 'widget' => 'choice',
                 'required' => true))
             //->add('ruta')

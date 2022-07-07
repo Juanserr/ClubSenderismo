@@ -6,76 +6,75 @@
 <div id="General" class="row h-100-justify-content-center align-items-center " >
     <div class="container h-100 " style="margin-top:80px; border: 10px ridge RoyalBlue;">
         <h1 style="color:black; margin-top:80px;"><center>Datos de la consulta<center></h1>
-        <div class="col-6 bg-white rounded my-3 p-5">
-        
+        <div class="col-12 bg-white rounded my-3 p-5">
+
+
         <div class="form-row" style="margin-top:20px">
-            <div id="campo_nombre" class="form-group col-md-8">
+            <div id="campo_nombre" class="col-md-4 mb-4">
                 {{ form_label(formulario.nombre)}}
                 {{ form_widget(formulario.nombre, {'attr':{'disabled':'disabled'} })}}
             </div>
+
+            <div id="campo_fecha" class="col-md-4 mb-4">
+                {{ form_label(formulario.fecha) }}
+                {{ form_widget(formulario.fecha, {'attr':{'disabled':'disabled'} })}}
+            </div>
+
+            
         </div>
 
         <div class="form-row">
-            <div id="campo_lugarinicio" class="form-group col-md-8">
+            
+            <div id="campo_lugarinicio" class="col-md-4 mb-4">
                 {{ form_label(formulario.lugar_inicio)}}
                 {{ form_widget(formulario.lugar_inicio, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
-
-        <div class="form-row">    
-            <div id="campo_lugarfin" class="form-group col-md-8">
+            <div id="campo_lugarfin" class="col-md-4 mb-4">
                 {{ form_label(formulario.lugar_fin)}}
                 {{ form_widget(formulario.lugar_fin, {'attr':{'disabled':'disabled'} })}}
             </div>
+
         </div>
 
         <div class="form-row">
-            <div id="campo_distancia" class="form-group col-md-8">
+            <div id="campo_distancia" class="col-md-4 mb-4">
                 {{ form_label(formulario.distancia) }}
                 {{ form_widget(formulario.distancia, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
 
-        <div class="form-row">
-            <div id="campo_desnivel" class="form-group col-md-8">
+            <div id="campo_desnivel" class="col-md-4 mb-4">
                 {{ form_label(formulario.desnivel_acumulado) }}
                 {{ form_widget(formulario.desnivel_acumulado, {'attr':{'disabled':'disabled'} })}}
             </div>
         </div>
 
         <div class="form-row">
-            <div id="campo_duracion" class="form-group col-md-7">
+            <div id="campo_duracion" class="col-md-4 mb-4">
                 {{ form_label(formulario.duracion) }}
                 {{ form_widget(formulario.duracion, {'attr':{'disabled':'disabled'} })}}
             </div>    
-        </div>
 
-        <div class="form-row">
-            <div id="campo_fecha" class="form-group col-md-7">
-                {{ form_label(formulario.fecha) }}
-                {{ form_widget(formulario.fecha, {'attr':{'disabled':'disabled'} })}}
-            </div>    
-        </div>
-
-        <div class="form-row">
-            <div id="campo_horainicio" class="form-group col-md-7">
+            <div id="campo_horainicio" class="col-md-4 mb-4">
                 {{ form_label(formulario.hora_inicio) }}
                 {{ form_widget(formulario.hora_inicio, {'attr':{'disabled':'disabled'} })}}
-            </div>    
-        </div>
+            </div>
 
-        <div class="form-row">
-            <div id="campo_horafin" class="form-group col-md-7">
+            <div id="campo_horafin" class="col-md-4 mb-4">
                 {{ form_label(formulario.hora_fin) }}
                 {{ form_widget(formulario.hora_fin, {'attr':{'disabled':'disabled'} })}}
-            </div>    
+            </div>  
         </div>
 
         <div class="form-row">
-            <div id="campo_recorrido" class="form-group col-md-7">
+            <div id="campo_recorrido" class="col-md-4 mb-4">
                 {{ form_label(formulario.recorrido) }}
                 {{ form_widget(formulario.recorrido, {'attr':{'disabled':'disabled'} })}}
-            </div>    
+            </div>
+
+            <div id="campo_dificultad" class="col-md-4 mb-4">
+                {{ form_label(formulario.dificultad) }}
+                {{ form_widget(formulario.dificultad, {'attr':{'disabled':'disabled'} })}}
+            </div>     
         </div>
 
         <div class="form-row">

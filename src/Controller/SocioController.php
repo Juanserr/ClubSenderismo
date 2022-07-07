@@ -307,7 +307,7 @@ class SocioController extends AbstractController
         //BÚSQUEDA DE RUTA
         $ruta = $em->getRepository(Ruta::class)->find($id);
         //CREACIÓN FORMULARIO
-        $form = $this->createForm(RutaType::class, $ruta);
+        $form = $this->createForm(DatosRutaType::class, $ruta);
         if($em->getRepository(RutaConInscripcion::class)->findBy(array('ruta' => $id))){
             
             $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));

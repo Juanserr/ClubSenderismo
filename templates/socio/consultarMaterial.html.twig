@@ -7,56 +7,53 @@
 
     <div class="container h-100 " style="margin-top:80px; border: 10px ridge RoyalBlue;">
         <h1 style="color:black; margin-top:80px;"><center>Datos de la consulta<center></h1>
-        <div class="col-6 bg-white rounded my-3 p-5">
+        <div class="col-12 bg-white rounded my-3 p-5">
 
         <div class="form-row">
             <div id="campo_imgmaterial" class="form-group col-md-6">
                 <img src="{{img_material}}" /> 
             </div>
+            
+        </div>  
+            
         </div>
-        
+
         <div class="form-row" style="margin-top:20px">
-            <div id="campo_nombre" class="form-group col-md-8">
+            <div id="campo_nombre" class="col-md-4 mb-4">
                 {{ form_label(formulario.nombre)}}
                 {{ form_widget(formulario.nombre, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
 
-        <div class="form-row">
-            <div id="campo_marca" class="form-group col-md-8">
+            <div id="campo_marca" class="col-md-4 mb-4">
                 {{ form_label(formulario.marca)}}
                 {{ form_widget(formulario.marca, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
 
-        <div class="form-row">    
-            <div id="campo_talla" class="form-group col-md-8">
+            <div id="campo_talla" class="col-md-4 mb-4">
                 {{ form_label(formulario.talla)}}
                 {{ form_widget(formulario.talla, {'attr':{'disabled':'disabled'} })}}
             </div>
+
         </div>
 
         <div class="form-row">
-            <div id="campo_sexo" class="form-group col-md-8">
+            <div id="campo_sexo" class="col-md-4 mb-4">
                 {{ form_label(formulario.sexo) }}
                 {{ form_widget(formulario.sexo, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
 
-        <div class="form-row">
-            <div id="campo_color" class="form-group col-md-8">
+            <div id="campo_color" class="col-md-4 mb-4">
                 {{ form_label(formulario.color) }}
                 {{ form_widget(formulario.color, {'attr':{'disabled':'disabled'} })}}
             </div>
-        </div>
 
-        <div class="form-row">
-            <div id="campo_tela" class="form-group col-md-8">
+            <div id="campo_tela" class="col-md-4 mb-4">
                 {{ form_label(formulario.tela) }}
                 {{ form_widget(formulario.tela, {'attr':{'disabled':'disabled'} })}}
             </div>
         </div>
 
+        
         <div class="form-row">
             <div id="boton_volver" class="form-group col-md-6">
                 <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
