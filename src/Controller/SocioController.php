@@ -1355,6 +1355,7 @@ class SocioController extends AbstractController
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
         $form->remove('email');
+        $form->remove('roles');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 

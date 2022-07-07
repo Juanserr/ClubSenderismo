@@ -2892,6 +2892,8 @@ class AdministradorController extends AbstractController
         //DATOS DE USUARIO
         $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
+        $form->remove('roles');
+        $form->remove('email');
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             
