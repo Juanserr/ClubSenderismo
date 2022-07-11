@@ -276,6 +276,14 @@ class SocioController extends AbstractController
             $temp = $em->getRepository(Ruta::class)->findAll();
         }
 
+        $now = date_create("now");
+        for($i = 0; $i < sizeof($temp); $i++) {
+            //Eliminamos la ruta que ya ha pasado de fecha
+            if($temp[$i]->getFecha()<$now){
+                unset($temp[$i]);
+            }
+            
+        }
                 //$encoders = [new XmlEncoder(), new JsonEncoder()];
 
                 //TO DO
