@@ -276,14 +276,6 @@ class SocioController extends AbstractController
             $temp = $em->getRepository(Ruta::class)->findAll();
         }
 
-        $now = date_create("now");
-        for($i = 0; $i < sizeof($temp); $i++) {
-            //Eliminamos la ruta que ya ha pasado de fecha
-            if($temp[$i]->getFecha()<$now){
-                unset($temp[$i]);
-            }
-            
-        }
                 //$encoders = [new XmlEncoder(), new JsonEncoder()];
 
                 //TO DO
@@ -342,9 +334,8 @@ class SocioController extends AbstractController
             $this->addFlash('info', 'Esta ruta no requiere inscripción previa');
             return $this->redirectToRoute(route: 'rutaBuscarSocio');
         }
-        $form = $this->createForm(UsuarioRutaType::class, $usuarioruta);
         $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
-
+        $form = $this->createForm(DatosRutaMostrarType::class, $rutaIns);
         $now = date_create("now");
         if($rutaIns->getFechaSocio() > $now){
             $this->addFlash('info', 'Lo sentimos...Aún no se ha abierto el plazo de inscripción');
@@ -362,7 +353,7 @@ class SocioController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $usuarioruta->setIdUsuario($usuario);
             $usuarioruta->setIdRuta($rutaIns);
-            $usuarioruta->setRutero($form["rutero"]->getData());
+            $usuarioruta->setRutero(false);
             $em->persist($usuarioruta);
             $em->flush();
             //reducir numero de plazas

@@ -936,9 +936,8 @@ class ConsultorController extends AbstractController{
             $this->addFlash('info', 'Esta ruta no requiere inscripción previa');
             return $this->redirectToRoute(route: 'rutaBuscarConsultor');
         }
-        $form = $this->createForm(UsuarioRutaType::class, $usuarioruta);
         $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
-
+        $form = $this->createForm(DatosRutaMostrarType::class, $rutaIns);
         $now = date_create("now");
         if($rutaIns->getFechaNosocio() > $now){
             $this->addFlash('info', 'Lo sentimos...Aún no se ha abierto el plazo de inscripción');
@@ -956,7 +955,7 @@ class ConsultorController extends AbstractController{
         if($form->isSubmitted() && $form->isValid()){
             $usuarioruta->setIdUsuario($usuario);
             $usuarioruta->setIdRuta($rutaIns);
-            $usuarioruta->setRutero($form["rutero"]->getData());
+            $usuarioruta->setRutero(false);
             $em->persist($usuarioruta);
             $em->flush();
             //reducir numero de plazas

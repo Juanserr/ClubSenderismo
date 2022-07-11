@@ -1466,9 +1466,8 @@ class EditorController extends AbstractController
             $this->addFlash('info', 'Esta ruta no requiere inscripción previa');
             return $this->redirectToRoute(route: 'rutaBuscarEditor');
         }
-        $form = $this->createForm(UsuarioRutaType::class, $usuarioruta);
         $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
-
+        $form = $this->createForm(DatosRutaMostrarType::class, $rutaIns);
         $now = date_create("now");
         if($rutaIns->getFechaNosocio() > $now){
             $this->addFlash('info', 'Lo sentimos...Aún no se ha abierto el plazo de inscripción');
@@ -1486,7 +1485,7 @@ class EditorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $usuarioruta->setIdUsuario($usuario);
             $usuarioruta->setIdRuta($rutaIns);
-            $usuarioruta->setRutero($form["rutero"]->getData());
+            $usuarioruta->setRutero(false);
             $em->persist($usuarioruta);
             $em->flush();
             //reducir numero de plazas
@@ -1503,6 +1502,45 @@ class EditorController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+
+        //-----------------
+    //ASIGNAR RUTERO
+    //-----------------
+
+    #[Route('/editor/rutas/asignarrutero/{id}', name: 'asignarRuteroEd')]
+    public function asignarRuteroRuta(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = new Usuario();
+        $form = $this->createForm(UsuarioRutaType::class, $usuario);
+        $rutaIns = $em->getRepository(RutaConInscripcion::class)->findOneBy(array('ruta' => $id));
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario = $em->getRepository(Usuario::class)->findOneBy(array('email' => $form['email']->getData()));
+            if($usuario == null){
+                $this->addFlash('error', 'ERROR: Lo sentimos...Ese correo electrónico no existe...');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
+            $usuarioruta = $em->getRepository(UsuarioRuta::class)->findOneBy(array('id_usuario' => $usuario->getId(), 'id_ruta' => $rutaIns->getId()));
+            if($usuarioruta == null){
+                $this->addFlash('error', 'ERROR: Lo sentimos...Ese usuario no está inscrito en la ruta seleccionada...');
+                return $this->redirectToRoute(route: 'rutaBuscarEditor');
+            }
+            $usuarioruta->setRutero(true);
+            $em->persist($usuarioruta);
+            $em->flush();
+            //Se crea la tupla del evento en el formulario
+            $this->addFlash(type: 'exito', message: 'El rutero se ha asignado correctamente');
+            return $this->redirectToRoute(route: 'rutaBuscarEditor');
+    }
+
+    return $this->render('editor/asignarRutero.html.twig', [
+        'controller_name' => '',
+        'form' => $form->createView()
+    ]);
+
+}
 
     //-----------------
     //BUSCAR MIS RUTAS INSCRITAS
