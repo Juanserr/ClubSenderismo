@@ -7,6 +7,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <div class="navbar-header" href="#">{{ Title }}</a>
+        
             <img src="{{ asset('images/icon.png') }}" alt="Club Senderismo" height="40">
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +90,7 @@
 
     {% for message in app.flashes('informacion') %}
         <div class= "alert alert-info" role="alert" style="margin-top:80px" >
-            {{ message }}
+            {{ message  }} <img height="20px" src="{{ asset('images/admin.png') }}" title="Rol Administrador"/>
         </div>
     {% endfor %}
 
@@ -107,33 +108,46 @@
 
     <body>
 {% if ruta is defined and evento is defined and material is defined %}
-<div class="container h-100 " style="margin-top:120px">
+<div class="container h-100 " style="margin-top:20px">
     <div class = "row">
 
             <div class="card-deck">
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/ruta.png') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/cliente.gif') }}" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{{ruta.nombre}}</h5>
-                            <p class="card-text">Anímese a aventurarse en esta ruta con nosotros, no lo dudes.</p>
+                            <h5 class="card-title">Gestión de Usuarios</h5>
+                            <p class="card-text">Desde aquí puede dirigirse al listado de usuarios de la web, donde podrá gestionarlos como deseé.</p>
                         </div>
-                        <a onclick="location.href='{{ path('consultarRutaAd', {id: ruta.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('usuarioBuscarAdmin')}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('informeUsuarios')}}'" class="btn btn-outline-primary btn-block">Imprimir Informe</a>
+                </div>
+
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('images/destino.gif') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Gestión de Rutas</h5>
+                            <p class="card-text">Desde aquí puede dirigirse al listado de rutas de la web, donde podrá gestionarlas como deseé.</p>
+                        </div>
+                        <a onclick="location.href='{{ path('rutaBuscarAdmin')}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('informeRutas')}}'" class="btn btn-outline-primary btn-block">Imprimir Informe</a>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/evento.png') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/calendario.gif') }}" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{{evento.nombre}}</h5>
-                            <p class="card-text">Disfruta con nosotros de nuestro último evento.</p>
+                            <h5 class="card-title">Gestión de Eventos</h5>
+                            <p class="card-text">Desde aquí puede dirigirse al listado de eventos de la web, donde podrá gestionarlos como deseé.</p>
                         </div>
-                        <a onclick="location.href='{{ path('consultarEventoAd', {id: evento.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('eventoBuscarAdmin')}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('informeEventos')}}'" class="btn btn-outline-primary btn-block">Imprimir Informe</a>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/materialdeportivo.png') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/material.gif') }}" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{{material.nombre}}</h5>
-                            <p class="card-text">Hágase con lo último en material deportivo en nuestro club.</p>
+                            <h5 class="card-title">Gestión de Material Deportivo</h5>
+                            <p class="card-text">Desde aquí puede dirigirse al listado de material deportivo de la web, donde podrá gestionarlos como deseé.</p>
                         </div>
-                        <a onclick="location.href='{{ path('consultarMaterialAd', {id: material.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('materialBuscarAdmin')}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                        <a onclick="location.href='{{ path('informeMaterial')}}'" class="btn btn-outline-primary btn-block">Imprimir Informe</a>
                 </div>
             </div>
     </div>
@@ -159,9 +173,4 @@
 </style>
 #}
 
-{% endblock %}
-
-{% block content %}
-    <h1 style="color:black; margin-top:80px;"><center>Club de Senderismo y Montañismo.<center></h1>
-    <center><img style="margin-top:80px;" src="{{ asset('images/senderismo.jpg') }}" /></center>
 {% endblock %}

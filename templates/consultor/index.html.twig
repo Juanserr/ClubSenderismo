@@ -90,7 +90,7 @@
 
     {% for message in app.flashes('informacion') %}
         <div class= "alert alert-info" role="alert" style="margin-top:80px" >
-            {{ message }}
+            {{ message }}  <img height="20px" src="{{ asset('images/cons.png') }}" title="Rol Consultor"/>
         </div>
         {% endfor %}
 
@@ -103,45 +103,75 @@
     
 <body>
 {% if ruta is defined and evento is defined and material is defined %}
-<div class="container h-100 " style="margin-top:120px">
-    <div class = "row">
+<div class="container h-100 " style="margin-top:20px">
 
-            <div class="card-deck">
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/ruta.png') }}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ruta.nombre}}</h5>
-                            <p class="card-text">Anímese a aventurarse en esta ruta con nosotros, no lo dudes.</p>
-                        </div>
-                        <a onclick="location.href='{{ path('consultarRutaConsultor', {id: ruta.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+    <div class="card-deck">
+
+        <div class="card text-white bg-info mb-3" style="max-width: 550px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img class="img-fluid" src="{{ asset('images/cliente.png') }}" alt="Card image cap">
                 </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/evento.png') }}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">{{evento.nombre}}</h5>
-                            <p class="card-text">Disfruta con nosotros de nuestro último evento.</p>
-                        </div>
-                        <a onclick="location.href='{{ path('consultarEventoConsultor', {id: evento.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/materialdeportivo.png') }}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">{{material.nombre}}</h5>
-                            <p class="card-text">Hágase con lo último en material deportivo en nuestro club.</p>
-                        </div>
-                        <a onclick="location.href='{{ path('consultarMaterialConsultor', {id: material.id})}}'" class="btn btn-outline-primary btn-block">Ver más...</a>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Listado de Usuarios</h5>
+                        <p class="card-text">Dispone de un listado extenso de los disponibles en la aplicación web.</p>
+                        <a onclick="location.href='{{ path('usuarioBuscarConsultor')}}'" class="btn btn-outline-dark btn-block">Ver más...</a>
+                    </div>
                 </div>
             </div>
-    </div>
-  </div>
+        </div>
 
+        <div class="card text-white bg-info mb-3" style="max-width: 550px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img class="img-fluid" src="{{ asset('images/camino.png') }}" alt="Card image cap">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Listado de Rutas</h5>
+                        <p class="card-text">Dispone de un listado extenso de las rutas disponibles en la aplicación web.</p>
+                        <a onclick="location.href='{{ path('rutaBuscarConsultor')}}'" class="btn btn-outline-dark btn-block">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck">
+
+        <div class="card text-white bg-info mb-3" style="max-width: 550px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img class="img-fluid" src="{{ asset('images/calendario.png') }}" alt="Card image cap">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Listado de Eventos</h5>
+                        <p class="card-text">A través de este botón puede consultar el listado de eventos al que puede acceder.</p>
+                        <a onclick="location.href='{{ path('eventoBuscarConsultor')}}'" class="btn btn-outline-dark btn-block">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card text-white bg-info mb-3" style="max-width: 550px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img class="img-fluid" src="{{ asset('images/ropa.png') }}" alt="Card image cap">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Listado de Material Deportivo</h5>
+                        <p class="card-text">A través de este botón puede consultar el listado de materiales deportivos al que puede acceder.</p>
+                        <a onclick="location.href='{{ path('materialBuscarConsultor')}}'" class="btn btn-outline-dark btn-block">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
 
 </body>
 {% endif %}
 
 {% endblock %}
 
-{% block content %}
-    <h1 style="color:black; margin-top:80px;"><center>Club de Senderismo y Montañismo.<center></h1>
-    <center><img style="margin-top:80px;" src="{{ asset('images/senderismo.jpg') }}" /></center>
-{% endblock %}
