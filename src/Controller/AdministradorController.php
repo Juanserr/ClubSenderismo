@@ -55,7 +55,7 @@ class AdministradorController extends AbstractController
         $ultimoevento = $em->getRepository(Evento::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $ultimomaterial = $em->getRepository(MaterialDeportivo::class)->findOneBy(array(),array('id'=>'DESC'),1,0);
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
-        $message = "Usted se ha logueado como Administrador con el correo {$usuario->getEmail()}";
+        $message = "Usted se ha identificado como Administrador con el correo {$usuario->getEmail()}";
         $this->addFlash('informacion', $message);
         return $this->render('administrador/index.html.twig', [
             'controller_name' => 'UsuarioController',
