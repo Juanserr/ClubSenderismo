@@ -21,10 +21,12 @@ use App\Form\DatosMaterialType;
 use App\Entity\Usuario;
 use App\Entity\Consultor;
 use App\Entity\Administrador;
+use App\Entity\ChangePassword;
 use App\Entity\Socio;
 use App\Entity\MaterialDeportivo;
 use App\Entity\RutaConInscripcion;
 use App\Entity\SocioMaterialdeportivo;
+use App\Form\ChangePasswordType;
 use App\Form\ConfirmarUsuarioType;
 use App\Form\DatosRutaType;
 use App\Form\MaterialDeportivoType;
@@ -1484,5 +1486,45 @@ class SocioController extends AbstractController
             'tarjeta' => $ntarjeta
         ]);
 
+    }
+
+    //-----------------
+    //CAMBIAR CONTRASEÑA
+    //-----------------
+    
+    #[Route('/socio/perfil/contraseña', name: 'cambiarContraseñaSocio')]
+    public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $changePasswordModel = new ChangePassword();
+        $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $user = $entityManager->find(Usuario::class, $this->getUser()->getId());
+            $password = $user->getPassword();
+            if(password_verify($form['oldPassword']->getData(), $password)){
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('newPassword')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                $this->addFlash(type: 'success', message: 'Ha modificado su contraseña correctamente.');
+                return $this->redirectToRoute(route: 'app_editor');
+            }
+
+            $this->addFlash(type: 'danger', message: 'La contraseña actual introducida es incorrecta');
+            return $this->redirectToRoute(route: 'app_editor');
+        }
+
+        return $this->render('editor/cambiarContraseña.html.twig', array(
+            'changePasswordForm' => $form->createView(),
+        ));        
     }
 }
