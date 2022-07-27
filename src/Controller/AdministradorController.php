@@ -20,6 +20,8 @@ use App\Form\EditorType;
 use App\Entity\Usuario;
 use App\Entity\Consultor;
 use App\Entity\Administrador;
+use App\Entity\ChangePassword;
+use App\Form\ChangePasswordType;
 use App\Entity\Socio;
 use App\Entity\Editor;
 use App\Entity\MaterialDeportivo;
@@ -754,11 +756,10 @@ class AdministradorController extends AbstractController
     {
         $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
-        $output = new ConsoleOutput();
         //BÚSQUEDA DEL USUARIO
         $usuario = $em->getRepository(Usuario::class)->find($id);
         $roldeusuario=implode('[]', $usuario->getRoles());
-        $output->writeln($roldeusuario);
+
 
         //CREACIÓN FORMULARIO
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
@@ -793,7 +794,7 @@ class AdministradorController extends AbstractController
 
 
                 if ($roldeusuario == 'ROLE_EDITOR') {
-                    $output->writeln('EDITOR');
+
                     $editor = new Editor();
                     $editor = $em->getRepository(Editor::class)->findOneBy(array('usuario' => $id));
     
@@ -801,7 +802,7 @@ class AdministradorController extends AbstractController
                     $em->flush();
                 }
                 if ($roldeusuario == 'ROLE_CONSULTOR') {
-                    $output->writeln('CONSULTOR');
+
                     $consultor = new Consultor();
                     $consultor = $em->getRepository(Consultor::class)->findOneBy(array('usuario' => $id));
     
@@ -810,7 +811,7 @@ class AdministradorController extends AbstractController
                 }
 
                 if ($roldeusuario == 'ROLE_ADMINISTRADOR') {
-                    $output->writeln('ADMIN');
+
                     $administrador = new Administrador();
                     $administrador = $em->getRepository(Administrador::class)->findOneBy(array('usuario' => $id));
     
@@ -819,7 +820,6 @@ class AdministradorController extends AbstractController
                 }
                 
                 if ($roldeusuario == 'ROLE_SOCIO') {
-                    $output->writeln('SOCIO');
                     $socio = $em->getRepository(Socio::class)->findOneBy(array('usuario' => $id));
                     //SI EL USUARIO HA SOLICITADO MATERIAL
                     $materiales = $em->getRepository(SocioMaterialdeportivo::class)->findBy(array('id_usuario' => $socio->getId()));
@@ -859,7 +859,6 @@ class AdministradorController extends AbstractController
                 }
 
                 if ($rol == 'ROLE_CONSULTOR') {
-                    $output->writeln('AD CON');
                     $em = $this->getDoctrine()->getManager();
                     $consultor->setUsuario($usuario);
                     $em->persist($consultor);
@@ -867,7 +866,6 @@ class AdministradorController extends AbstractController
                 }
 
                 if ($rol == 'ROLE_EDITOR') {
-                    $output->writeln('AD EDI');
                     $em = $this->getDoctrine()->getManager();
                     $editor->setUsuario($usuario);
                     $em->persist($editor);
@@ -875,7 +873,6 @@ class AdministradorController extends AbstractController
                 }
 
                 if ($rol == 'ROLE_ADMINISTRADOR') {
-                    $output->writeln('AD ADM');
                     $em = $this->getDoctrine()->getManager();
                     $administrador->setUsuario($usuario);
                     $em->persist($administrador);
@@ -887,7 +884,6 @@ class AdministradorController extends AbstractController
                 return $this->redirectToRoute(route: 'usuarioBuscarAdmin');
                     
             }
-            $output->writeln('NO');
             $em->persist($usuario);
             $em->flush();
             //REDIRECCIÓN
@@ -912,7 +908,6 @@ class AdministradorController extends AbstractController
     {
         $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
-        $output = new ConsoleOutput();
         //Buscar el usuario a eliminar
         $usuario = $em->getRepository(Usuario::class)->find($id);
 
@@ -1002,7 +997,7 @@ class AdministradorController extends AbstractController
     }
 
     //-----------------
-    //ELIMINAR USUARIO
+    //RECHAZAR USUARIO
     //-----------------
 
     #[Route('/administrador/usuario/solicitudes/rechazar/{id}', name: 'rechazarUsuarioAd')]
@@ -1010,7 +1005,6 @@ class AdministradorController extends AbstractController
     {
         $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
-        $output = new ConsoleOutput();
         //Buscar el usuario a eliminar
         $usuario = $em->getRepository(Usuario::class)->find($id);
 
@@ -2933,9 +2927,11 @@ class AdministradorController extends AbstractController
         $form = $this->createForm(ConfirmarUsuarioType::class, $usuario);
         $form->remove('roles');
         $form->remove('email');
+        $output = new ConsoleOutput();
+        
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            
+            $output->writeln('45');
             $em->persist($usuario);
             $em->flush();
             $this->addFlash(type: 'success', message: 'Ha editado su perfil correctamente.');
@@ -2986,6 +2982,46 @@ class AdministradorController extends AbstractController
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
             'formulario' => $form->createView()
         ]);
+    }
+
+    //-----------------
+    //CAMBIAR CONTRASEÑA
+    //-----------------
+    
+    #[Route('/administrador/perfil/contraseña', name: 'cambiarContraseñaAdmin')]
+    public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $changePasswordModel = new ChangePassword();
+        $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $user = $entityManager->find(Usuario::class, $this->getUser()->getId());
+            $password = $user->getPassword();
+            if(password_verify($form['oldPassword']->getData(), $password)){
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('newPassword')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                $this->addFlash(type: 'success', message: 'Ha modificado su contraseña correctamente.');
+                return $this->redirectToRoute(route: 'app_administrador');
+            }
+
+            $this->addFlash(type: 'danger', message: 'La contraseña actual introducida es incorrecta');
+            return $this->redirectToRoute(route: 'app_administrador');
+        }
+
+        return $this->render('administrador/cambiarContraseña.html.twig', array(
+            'changePasswordForm' => $form->createView(),
+        ));        
     }
 
 
