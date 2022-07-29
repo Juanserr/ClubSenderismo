@@ -1516,14 +1516,14 @@ class SocioController extends AbstractController
                 $entityManager->flush();
     
                 $this->addFlash(type: 'success', message: 'Ha modificado su contraseña correctamente.');
-                return $this->redirectToRoute(route: 'app_editor');
+                return $this->redirectToRoute(route: 'app_socio');
             }
 
             $this->addFlash(type: 'danger', message: 'La contraseña actual introducida es incorrecta');
-            return $this->redirectToRoute(route: 'app_editor');
+            return $this->redirectToRoute(route: 'app_socio');
         }
 
-        return $this->render('editor/cambiarContraseña.html.twig', array(
+        return $this->render('socio/cambiarContraseña.html.twig', array(
             'changePasswordForm' => $form->createView(),
         ));        
     }
