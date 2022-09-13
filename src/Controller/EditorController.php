@@ -1379,7 +1379,7 @@ class EditorController extends AbstractController
                 $this->addFlash(type: 'error', message: 'ERROR: La fecha de la ruta debe ser posterior al día de hoy.');
                 return $this->redirectToRoute(route: 'rutaBuscarEditor');
             }
-            if($ruta->getHoraInicio() > $ruta->getHoraFin){
+            if($ruta->getHoraInicio() > $ruta->getHoraFin()){
                 $this->addFlash(type: 'error', message: 'ERROR:  La hora de fin debe ser posterior a la de inicio.');
                 return $this->redirectToRoute(route: 'rutaBuscarEditor');
             }
