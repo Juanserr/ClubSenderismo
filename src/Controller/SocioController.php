@@ -349,7 +349,7 @@ class SocioController extends AbstractController
         $now = date_create("now");
         if($rutaIns->getFechaSocio() > $now){
             $this->addFlash('info', 'Lo sentimos...Aún no se ha abierto el plazo de inscripción');
-            return $this->redirectToRoute(route: 'rutaBuscarAdmin');
+            return $this->redirectToRoute(route: 'rutaBuscarSocio');
         }
 
         $inscrito = $em->getRepository(UsuarioRuta::class)->findOneBy(array('id_usuario' => $usuario->getId(), 'id_ruta' => $rutaIns->getId()));
